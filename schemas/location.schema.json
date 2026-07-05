@@ -1,0 +1,1821 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/location.schema.json",
+  "$title": "Location",
+  "description": "Canonical structure for a location record in a storytelling universe. Version 1.1 adds region support, safety metadata, secrets, events, resident characters, camera and weather profiles, and improved kind extensibility. Defines reusable geography, hierarchy, atmosphere, map placement, and production profiles for Story Studio, AI story and image generation, websites, maps, books, games, and mobile apps. Supports natural, built, regional, and landmark locations through a shared core and kind-specific or generic profiles.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "kind",
+    "status",
+    "summary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "$ref": "#/$defs/schemaVersion",
+      "description": "Semantic version of this document format. Use 1.1.0 or later for records that include v1.1 fields."
+    },
+    "id": {
+      "$ref": "#/$defs/slug",
+      "description": "Stable, immutable identifier for the location. Never change once assigned. Used in filenames, URLs, maps, APIs, and cross-references."
+    },
+    "name": {
+      "$ref": "#/$defs/nonEmptyString",
+      "description": "Primary display name of the location. When displayName is present, consumers should prefer displayName for presentation.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "canonicalName": {
+      "$ref": "#/$defs/nonEmptyString",
+      "description": "Official canonical name used in documentation, maps, and authoritative references.",
+      "maxLength": 128
+    },
+    "displayName": {
+      "$ref": "#/$defs/nonEmptyString",
+      "description": "Current presentation name shown in apps, websites, and Story Studio. May evolve without affecting id.",
+      "maxLength": 128
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Alternative names, historical names, or local nicknames for the location.",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true,
+      "maxItems": 20
+    },
+    "kind": {
+      "$ref": "#/$defs/locationKind",
+      "description": "Primary classification of the location. Standard kinds are provided; custom kebab-case kinds (e.g. lake, cave, meadow) are supported via the extensible kind system."
+    },
+    "kindCategory": {
+      "$ref": "#/$defs/locationKindCategory",
+      "description": "Optional high-level grouping for filtering and Story Studio matching when kind alone is insufficient."
+    },
+    "status": {
+      "$ref": "#/$defs/recordStatus",
+      "description": "Editorial lifecycle state of this record."
+    },
+    "summary": {
+      "$ref": "#/$defs/nonEmptyString",
+      "description": "Brief overview suitable for lists, map labels, search results, and API summaries.",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "description": {
+      "type": "string",
+      "description": "Extended narrative description for long-form profiles, books, and AI story generation context.",
+      "maxLength": 15000
+    },
+    "hierarchy": {
+      "$ref": "#/$defs/hierarchy",
+      "description": "Structural placement within a location tree (e.g. room within building within village within region). Regions typically sit at depth 0 and contain child locations."
+    },
+    "geography": {
+      "$ref": "#/$defs/geography",
+      "description": "Regional and environmental context shared across location kinds."
+    },
+    "atmosphere": {
+      "$ref": "#/$defs/atmosphere",
+      "description": "Mood, sensory details, and ambient qualities for storytelling and media generation."
+    },
+    "storyRoles": {
+      "type": "array",
+      "description": "Narrative roles this location fulfills across stories. Supports standard roles and custom extensions.",
+      "items": {
+        "$ref": "#/$defs/locationStoryRoleEntry"
+      },
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "storyAffordances": {
+      "type": "array",
+      "description": "Types of story events or interactions naturally supported by this location.",
+      "items": {
+        "$ref": "#/$defs/labeledItem"
+      },
+      "maxItems": 20
+    },
+    "storyFunctions": {
+      "type": "array",
+      "description": "Functional roles used by Story Studio to match locations to story templates.",
+      "items": {
+        "$ref": "#/$defs/locationStoryFunctionEntry"
+      },
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "seasonality": {
+      "$ref": "#/$defs/seasonality",
+      "description": "Seasonal and temporal qualities that affect how the location appears in stories."
+    },
+    "accessibility": {
+      "$ref": "#/$defs/accessibility",
+      "description": "Audience-appropriate access and comfort metadata for apps, games, and editorial review."
+    },
+    "dangerProfile": {
+      "$ref": "#/$defs/dangerProfile",
+      "description": "Optional safety metadata describing overall location safety for Story Studio age-appropriate scene selection. Not game mechanics — canonical world information only."
+    },
+    "weatherProfile": {
+      "$ref": "#/$defs/weatherProfile",
+      "description": "Optional weather patterns for visual consistency, atmosphere, and AI story generation."
+    },
+    "connections": {
+      "type": "array",
+      "description": "Travel paths, adjacencies, and navigable links to other locations.",
+      "items": {
+        "$ref": "#/$defs/locationConnection"
+      },
+      "maxItems": 100
+    },
+    "featuredCharacters": {
+      "type": "array",
+      "description": "Character identifiers frequently associated with this location as visitors, travelers, or recurring guests — not permanent residents.",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true,
+      "maxItems": 100
+    },
+    "residentCharacters": {
+      "type": "array",
+      "description": "Characters who permanently or primarily live, work, or belong at this location.",
+      "items": {
+        "$ref": "#/$defs/residentCharacter"
+      },
+      "maxItems": 100
+    },
+    "secrets": {
+      "type": "array",
+      "description": "Optional hidden discoveries, lore, or notable features not immediately visible. Canonical world facts only — not game unlock logic.",
+      "items": {
+        "$ref": "#/$defs/locationSecret"
+      },
+      "maxItems": 50
+    },
+    "events": {
+      "type": "array",
+      "description": "Recurring or seasonal events that naturally belong to this location.",
+      "items": {
+        "$ref": "#/$defs/locationEvent"
+      },
+      "maxItems": 50
+    },
+    "kindProfile": {
+      "description": "Kind-specific attributes. Must align with the value of kind. Standard kinds use typed profiles; custom kinds may use genericKindProfile or omit this field.",
+      "oneOf": [
+        { "$ref": "#/$defs/regionProfile" },
+        { "$ref": "#/$defs/villageProfile" },
+        { "$ref": "#/$defs/forestProfile" },
+        { "$ref": "#/$defs/riverProfile" },
+        { "$ref": "#/$defs/mountainProfile" },
+        { "$ref": "#/$defs/buildingProfile" },
+        { "$ref": "#/$defs/roomProfile" },
+        { "$ref": "#/$defs/landmarkProfile" },
+        { "$ref": "#/$defs/genericKindProfile" }
+      ]
+    },
+    "mapProfile": {
+      "$ref": "#/$defs/mapProfile",
+      "description": "Placement and presentation metadata for maps, games, and interactive navigation."
+    },
+    "imageProfile": {
+      "$ref": "#/$defs/imageProfile",
+      "description": "Model-agnostic visual generation settings for environments and establishing shots. May be combined with cameraProfile by consumers."
+    },
+    "cameraProfile": {
+      "$ref": "#/$defs/cameraProfile",
+      "description": "Reusable camera and framing guidance for illustration, animation, and AI image generation."
+    },
+    "promptProfile": {
+      "$ref": "#/$defs/promptProfile",
+      "description": "Reusable prompt templates for AI systems. Complements dedicated profiles."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form labels for discovery, filtering, and grouping.",
+      "items": {
+        "$ref": "#/$defs/tag"
+      },
+      "uniqueItems": true,
+      "maxItems": 50
+    },
+    "media": {
+      "type": "array",
+      "description": "References to visual, audio, or map assets associated with this location.",
+      "items": {
+        "$ref": "#/$defs/mediaReference"
+      },
+      "maxItems": 100
+    },
+    "references": {
+      "$ref": "#/$defs/references",
+      "description": "Links to related documentation and structured records."
+    },
+    "metadata": {
+      "$ref": "#/$defs/metadata",
+      "description": "Provenance, audit, and editorial metadata."
+    },
+    "extensions": {
+      "$ref": "#/$defs/extensions",
+      "description": "Namespaced extension data for future consumers. Keys should use reverse-domain notation."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "region" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/regionProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "village" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/villageProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "forest" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/forestProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "river" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/riverProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "mountain" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/mountainProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "building" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/buildingProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "room" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/roomProfile" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "landmark" } }, "required": ["kind"] },
+      "then": { "properties": { "kindProfile": { "$ref": "#/$defs/landmarkProfile" } } }
+    }
+  ],
+  "$defs": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Semantic version identifying the location document format.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "1.1.0"]
+    },
+    "slug": {
+      "type": "string",
+      "description": "Lowercase kebab-case identifier.",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 64,
+      "examples": ["example-village", "north-forest", "oak-library"]
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "recordStatus": {
+      "type": "string",
+      "description": "Editorial state of the location record.",
+      "enum": ["draft", "review", "canonical", "deprecated", "archived"]
+    },
+    "locationKind": {
+      "description": "Standard location kind or custom kebab-case extension. The standard list is non-exhaustive — new kinds (lake, cave, meadow, garden, beach, school, etc.) may use custom identifiers with genericKindProfile.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "region",
+            "village",
+            "forest",
+            "river",
+            "mountain",
+            "building",
+            "room",
+            "landmark"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "region",
+              "village",
+              "forest",
+              "river",
+              "mountain",
+              "building",
+              "room",
+              "landmark"
+            ]
+          }
+        }
+      ]
+    },
+    "locationKindCategory": {
+      "type": "string",
+      "description": "High-level category for grouping and filtering locations across custom kinds.",
+      "enum": [
+        "region",
+        "settlement",
+        "natural",
+        "water",
+        "elevated",
+        "built",
+        "interior",
+        "landmark",
+        "infrastructure",
+        "mixed",
+        "unspecified"
+      ]
+    },
+    "labeledItem": {
+      "type": "object",
+      "description": "A named item with optional descriptive context.",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/nonEmptyString",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "hierarchy": {
+      "type": "object",
+      "description": "Placement within a nested location structure. Regions are top-level containers; child locations reference their parent via parentId.",
+      "additionalProperties": false,
+      "properties": {
+        "parentId": {
+          "$ref": "#/$defs/slug",
+          "description": "Immediate parent location identifier (e.g. region id for a village, building id for a room)."
+        },
+        "ancestorIds": {
+          "type": "array",
+          "description": "Ordered list of ancestor location ids from root region to immediate parent.",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "maxItems": 20,
+          "uniqueItems": true
+        },
+        "childIds": {
+          "type": "array",
+          "description": "Direct child location identifiers contained within this location. Regions typically list villages, forests, and other contained places here.",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "maxItems": 500,
+          "uniqueItems": true
+        },
+        "depth": {
+          "type": "integer",
+          "description": "Nesting depth in the location tree (0 = top-level region or root location).",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "path": {
+          "type": "string",
+          "description": "Human-readable breadcrumb path (e.g. Region / Village / Building / Room).",
+          "maxLength": 512
+        }
+      }
+    },
+    "geography": {
+      "type": "object",
+      "description": "Environmental and regional context.",
+      "additionalProperties": false,
+      "properties": {
+        "regionId": {
+          "$ref": "#/$defs/slug",
+          "description": "Reference to the containing region location record. Redundant with hierarchy.parentId when parent is a region, but useful for quick lookup."
+        },
+        "region": {
+          "type": "string",
+          "description": "Free-text region name when no structured region record exists.",
+          "maxLength": 128
+        },
+        "biome": {
+          "type": "string",
+          "description": "Ecological or environmental biome.",
+          "enum": [
+            "forest",
+            "grassland",
+            "wetland",
+            "riverine",
+            "mountain",
+            "coastal",
+            "urban",
+            "mixed",
+            "unspecified"
+          ]
+        },
+        "climate": {
+          "type": "string",
+          "description": "Typical climate character.",
+          "enum": [
+            "temperate",
+            "warm",
+            "cool",
+            "rainy",
+            "dry",
+            "snowy",
+            "mixed",
+            "unspecified"
+          ]
+        },
+        "terrain": {
+          "type": "string",
+          "description": "Dominant terrain quality.",
+          "enum": [
+            "flat",
+            "rolling",
+            "hilly",
+            "rocky",
+            "sandy",
+            "muddy",
+            "water",
+            "mixed",
+            "unspecified"
+          ]
+        },
+        "elevation": {
+          "type": "string",
+          "description": "Relative elevation class.",
+          "enum": ["low", "medium", "high", "peak", "unspecified"]
+        },
+        "coordinates": {
+          "$ref": "#/$defs/coordinates",
+          "description": "Abstract or real-world coordinates for mapping systems."
+        }
+      }
+    },
+    "coordinates": {
+      "type": "object",
+      "description": "Coordinate representation. Consumers choose applicable fields for grid maps, GIS, or game engines.",
+      "additionalProperties": false,
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "x": {
+          "type": "number",
+          "description": "Grid or normalized horizontal position."
+        },
+        "y": {
+          "type": "number",
+          "description": "Grid or normalized vertical position."
+        },
+        "z": {
+          "type": "number",
+          "description": "Elevation layer or floor index."
+        },
+        "system": {
+          "type": "string",
+          "description": "Coordinate system identifier (e.g. wgs84, grid, normalized).",
+          "maxLength": 64
+        }
+      }
+    },
+    "atmosphere": {
+      "type": "object",
+      "description": "Mood and sensory qualities for narrative and media generation.",
+      "additionalProperties": false,
+      "properties": {
+        "mood": {
+          "type": "array",
+          "description": "Emotional tone descriptors (e.g. peaceful, mysterious, lively).",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "lighting": {
+          "type": "string",
+          "description": "Typical lighting quality.",
+          "maxLength": 256
+        },
+        "palette": {
+          "type": "array",
+          "description": "Dominant color palette for visual consistency.",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 12
+        },
+        "sounds": {
+          "type": "array",
+          "description": "Characteristic ambient sounds.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 15
+        },
+        "scents": {
+          "type": "array",
+          "description": "Characteristic smells or air quality notes.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "textures": {
+          "type": "array",
+          "description": "Tactile or surface qualities present in the environment.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional atmospheric direction for writers and media teams.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "seasonality": {
+      "type": "object",
+      "description": "How the location changes or is best represented across time.",
+      "additionalProperties": false,
+      "properties": {
+        "preferredSeasons": {
+          "type": "array",
+          "description": "Seasons when the location is most featured or visually distinctive.",
+          "items": {
+            "type": "string",
+            "enum": ["spring", "summer", "autumn", "winter"]
+          },
+          "uniqueItems": true,
+          "maxItems": 4
+        },
+        "preferredTimesOfDay": {
+          "type": "array",
+          "description": "Times of day commonly associated with the location in stories.",
+          "items": {
+            "type": "string",
+            "enum": ["dawn", "morning", "midday", "afternoon", "dusk", "evening", "night"]
+          },
+          "uniqueItems": true,
+          "maxItems": 7
+        },
+        "weatherTypical": {
+          "type": "array",
+          "description": "Typical weather conditions.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "dangerProfile": {
+      "type": "object",
+      "description": "Canonical safety metadata for editorial and Story Studio filtering. Describes world safety, not game difficulty.",
+      "additionalProperties": false,
+      "properties": {
+        "dangerLevel": {
+          "type": "integer",
+          "description": "Overall safety scale from 0 (safest) to 10 (most hazardous). Use low values for young-audience content.",
+          "minimum": 0,
+          "maximum": 10,
+          "default": 0
+        },
+        "safetyDescription": {
+          "type": "string",
+          "description": "Narrative explanation of why the location is safe or what gentle hazards exist.",
+          "maxLength": 2000
+        },
+        "commonHazards": {
+          "type": "array",
+          "description": "Named hazards present in canon (e.g. slippery paths, deep water). Describe factually, not as game mechanics.",
+          "items": {
+            "$ref": "#/$defs/labeledItem"
+          },
+          "maxItems": 15
+        },
+        "supervisionRecommended": {
+          "type": "boolean",
+          "description": "Whether stories typically imply adult or companion supervision here.",
+          "default": false
+        }
+      }
+    },
+    "weatherProfile": {
+      "type": "object",
+      "description": "Weather patterns for atmosphere, visuals, and story generation.",
+      "additionalProperties": false,
+      "properties": {
+        "typicalWeather": {
+          "type": "array",
+          "description": "Weather conditions commonly experienced at this location.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "possibleWeather": {
+          "type": "array",
+          "description": "Weather conditions that occasionally occur.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 15
+        },
+        "rareWeather": {
+          "type": "array",
+          "description": "Unusual or memorable weather events suitable for special stories.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional weather direction for writers and visual teams.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "residentCharacter": {
+      "type": "object",
+      "description": "A character permanently or primarily associated with this location as a resident.",
+      "additionalProperties": false,
+      "required": ["characterId"],
+      "properties": {
+        "characterId": {
+          "$ref": "#/$defs/slug",
+          "description": "Reference to the character record."
+        },
+        "residenceType": {
+          "type": "string",
+          "description": "Nature of the character's association with this location.",
+          "enum": ["permanent", "seasonal", "caretaker", "owner", "unspecified"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional context about the character's role at this location.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "locationSecret": {
+      "type": "object",
+      "description": "A hidden discovery or little-known canonical fact about the location.",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug",
+          "description": "Stable identifier for this secret within the location record."
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Short name of the secret or hidden feature.",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "Canonical description of the secret for writers and lore maintainers.",
+          "maxLength": 3000
+        },
+        "visibility": {
+          "type": "string",
+          "description": "How widely known this secret is within the story world.",
+          "enum": ["hidden", "rumored", "discoverable", "known", "unspecified"],
+          "default": "hidden"
+        },
+        "discoveryConditions": {
+          "type": "array",
+          "description": "Narrative conditions under which the secret might be revealed in stories. Not game unlock rules.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        }
+      }
+    },
+    "locationEvent": {
+      "type": "object",
+      "description": "A recurring or seasonal event associated with this location.",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug",
+          "description": "Stable identifier for this event within the location record."
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Display name of the event.",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "What happens during the event and why it matters to the location.",
+          "maxLength": 3000
+        },
+        "season": {
+          "type": "string",
+          "description": "Primary season when the event occurs.",
+          "enum": ["spring", "summer", "autumn", "winter", "any", "unspecified"]
+        },
+        "recurrence": {
+          "type": "string",
+          "description": "How often the event occurs in the story world.",
+          "enum": ["annual", "seasonal", "monthly", "weekly", "once", "irregular", "unspecified"]
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "description": "Audience comfort and access metadata. Use to flag suitability for young audiences and interactive experiences.",
+      "additionalProperties": false,
+      "properties": {
+        "audienceLevel": {
+          "type": "string",
+          "description": "Intended audience comfort level for this location in stories and games.",
+          "enum": ["all-ages", "young-children", "supervised", "unspecified"]
+        },
+        "emotionalIntensity": {
+          "type": "string",
+          "description": "Typical emotional intensity of scenes set here.",
+          "enum": ["calm", "gentle", "moderate", "exciting", "unspecified"]
+        },
+        "physicalAccessibility": {
+          "type": "string",
+          "description": "General physical access notes for characters and visitors.",
+          "enum": ["open", "limited", "restricted", "unspecified"]
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "locationStoryRoleEntry": {
+      "type": "object",
+      "description": "A narrative role this location plays in stories.",
+      "additionalProperties": false,
+      "required": ["role"],
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/locationStoryRoleValue"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable role for UI display.",
+          "maxLength": 128
+        },
+        "primary": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "locationStoryRoleValue": {
+      "description": "Standard location narrative role or custom kebab-case extension.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "setting",
+            "home",
+            "destination",
+            "waypoint",
+            "hub",
+            "boundary",
+            "sanctuary",
+            "discovery-site",
+            "background"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "setting",
+              "home",
+              "destination",
+              "waypoint",
+              "hub",
+              "boundary",
+              "sanctuary",
+              "discovery-site",
+              "background"
+            ]
+          }
+        }
+      ]
+    },
+    "locationStoryFunctionEntry": {
+      "type": "object",
+      "description": "A functional story role used for location matching in Story Studio.",
+      "additionalProperties": false,
+      "required": ["function"],
+      "properties": {
+        "function": {
+          "$ref": "#/$defs/locationStoryFunctionValue"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "locationStoryFunctionValue": {
+      "description": "Standard location story function or custom kebab-case extension.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "meeting-place",
+            "rest-stop",
+            "learning-space",
+            "journey-start",
+            "journey-end",
+            "exploration",
+            "problem-setting",
+            "celebration-site",
+            "transition"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "meeting-place",
+              "rest-stop",
+              "learning-space",
+              "journey-start",
+              "journey-end",
+              "exploration",
+              "problem-setting",
+              "celebration-site",
+              "transition"
+            ]
+          }
+        }
+      ]
+    },
+    "locationConnection": {
+      "type": "object",
+      "description": "A navigable link between this location and another.",
+      "additionalProperties": false,
+      "required": ["targetId", "type"],
+      "properties": {
+        "targetId": {
+          "$ref": "#/$defs/slug",
+          "description": "Connected location identifier."
+        },
+        "type": {
+          "type": "string",
+          "description": "Connection type (e.g. path, road, door, river, portal).",
+          "maxLength": 64
+        },
+        "label": {
+          "type": "string",
+          "description": "Display label for maps and navigation UI.",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "bidirectional": {
+          "type": "boolean",
+          "default": true
+        },
+        "travelTime": {
+          "type": "string",
+          "description": "Narrative or gameplay travel duration (e.g. short walk, half-day).",
+          "maxLength": 64
+        },
+        "requirements": {
+          "type": "array",
+          "description": "Optional conditions to use this connection (e.g. boat, key, daylight).",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        }
+      }
+    },
+    "regionProfile": {
+      "type": "object",
+      "description": "Attributes specific to region locations — top-level containers that group villages, forests, landmarks, and other places.",
+      "additionalProperties": false,
+      "properties": {
+        "regionType": {
+          "type": "string",
+          "description": "Classification of the region (e.g. realm, province, valley, coastline).",
+          "maxLength": 128
+        },
+        "scale": {
+          "type": "string",
+          "description": "Relative geographic scale of the region.",
+          "enum": ["small", "medium", "large", "vast", "unspecified"]
+        },
+        "dominantBiomes": {
+          "type": "array",
+          "description": "Primary biomes represented within the region.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "forest",
+              "grassland",
+              "wetland",
+              "riverine",
+              "mountain",
+              "coastal",
+              "urban",
+              "mixed",
+              "unspecified"
+            ]
+          },
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "borderLocationIds": {
+          "type": "array",
+          "description": "Adjacent region or boundary location identifiers.",
+          "items": {
+            "$ref": "#/$defs/slug"
+          },
+          "maxItems": 20,
+          "uniqueItems": true
+        }
+      }
+    },
+    "genericKindProfile": {
+      "type": "object",
+      "description": "Fallback profile for custom location kinds not covered by a typed profile. Enables lake, cave, meadow, garden, beach, school, and future kinds without schema changes.",
+      "additionalProperties": false,
+      "properties": {
+        "subtype": {
+          "type": "string",
+          "description": "Optional subtype label matching or refining the kind identifier.",
+          "maxLength": 128
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Kind-specific key-value attributes. Keys should be kebab-case strings; values are strings, numbers, booleans, or arrays.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string", "maxLength": 1000 },
+              { "type": "number" },
+              { "type": "boolean" },
+              {
+                "type": "array",
+                "items": { "type": "string", "maxLength": 256 },
+                "maxItems": 20
+              }
+            ]
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-form direction for contributors until a typed profile is introduced.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "villageProfile": {
+      "type": "object",
+      "description": "Attributes specific to village and settlement locations.",
+      "additionalProperties": false,
+      "properties": {
+        "settlementType": {
+          "type": "string",
+          "enum": ["hamlet", "village", "town", "outpost", "unspecified"]
+        },
+        "populationScale": {
+          "type": "string",
+          "description": "Relative population size without exact counts.",
+          "enum": ["tiny", "small", "medium", "large", "unspecified"]
+        },
+        "primaryActivity": {
+          "type": "string",
+          "description": "Main livelihood or activity (e.g. farming, trade, fishing).",
+          "maxLength": 128
+        }
+      }
+    },
+    "forestProfile": {
+      "type": "object",
+      "description": "Attributes specific to forest and woodland locations.",
+      "additionalProperties": false,
+      "properties": {
+        "density": {
+          "type": "string",
+          "enum": ["sparse", "moderate", "dense", "unspecified"]
+        },
+        "canopy": {
+          "type": "string",
+          "enum": ["open", "partial", "closed", "unspecified"]
+        },
+        "trailAccess": {
+          "type": "string",
+          "enum": ["none", "limited", "moderate", "extensive", "unspecified"]
+        },
+        "notableFlora": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "maxItems": 20
+        },
+        "notableFauna": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "maxItems": 20
+        }
+      }
+    },
+    "riverProfile": {
+      "type": "object",
+      "description": "Attributes specific to river and waterway locations.",
+      "additionalProperties": false,
+      "properties": {
+        "flowDirection": {
+          "type": "string",
+          "enum": ["north", "south", "east", "west", "variable", "unspecified"]
+        },
+        "width": {
+          "type": "string",
+          "enum": ["narrow", "medium", "wide", "unspecified"]
+        },
+        "depth": {
+          "type": "string",
+          "enum": ["shallow", "moderate", "deep", "unspecified"]
+        },
+        "crossable": {
+          "type": "boolean",
+          "description": "Whether characters can cross under typical conditions.",
+          "default": true
+        },
+        "crossingMethods": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "maxItems": 10
+        }
+      }
+    },
+    "mountainProfile": {
+      "type": "object",
+      "description": "Attributes specific to mountain and elevated terrain locations.",
+      "additionalProperties": false,
+      "properties": {
+        "elevationClass": {
+          "type": "string",
+          "enum": ["hill", "mountain", "peak", "range", "unspecified"]
+        },
+        "terrainDifficulty": {
+          "type": "string",
+          "description": "Relative difficulty of traversal for storytelling stakes.",
+          "enum": ["easy", "moderate", "challenging", "unspecified"]
+        },
+        "viewQuality": {
+          "type": "string",
+          "enum": ["limited", "good", "panoramic", "unspecified"]
+        }
+      }
+    },
+    "buildingProfile": {
+      "type": "object",
+      "description": "Attributes specific to building locations.",
+      "additionalProperties": false,
+      "properties": {
+        "buildingType": {
+          "type": "string",
+          "description": "Building classification (e.g. house, school, barn, shop).",
+          "maxLength": 128
+        },
+        "floors": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "entrances": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "maxItems": 20
+        },
+        "occupancy": {
+          "type": "string",
+          "enum": ["residential", "public", "commercial", "mixed", "abandoned", "unspecified"]
+        }
+      }
+    },
+    "roomProfile": {
+      "type": "object",
+      "description": "Attributes specific to room locations within buildings.",
+      "additionalProperties": false,
+      "properties": {
+        "roomType": {
+          "type": "string",
+          "description": "Room classification (e.g. bedroom, kitchen, workshop).",
+          "maxLength": 128
+        },
+        "floor": {
+          "type": "integer",
+          "description": "Floor index within the parent building (1 = ground).",
+          "minimum": -10,
+          "maximum": 200
+        },
+        "capacity": {
+          "type": "integer",
+          "description": "Typical number of occupants or visitors.",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "adjoiningRoomIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true,
+          "maxItems": 20
+        }
+      }
+    },
+    "landmarkProfile": {
+      "type": "object",
+      "description": "Attributes specific to landmark locations.",
+      "additionalProperties": false,
+      "properties": {
+        "landmarkType": {
+          "type": "string",
+          "description": "Landmark classification (e.g. monument, bridge, ancient tree).",
+          "maxLength": 128
+        },
+        "prominence": {
+          "type": "string",
+          "enum": ["local", "regional", "legendary", "unspecified"]
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["hidden", "partial", "visible", "dominant", "unspecified"]
+        },
+        "significance": {
+          "type": "string",
+          "description": "Why the landmark matters in stories.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "mapProfile": {
+      "type": "object",
+      "description": "Map and game-engine placement metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "mapId": {
+          "$ref": "#/$defs/slug",
+          "description": "Identifier of the map or world partition this location belongs to."
+        },
+        "position": {
+          "$ref": "#/$defs/coordinates",
+          "description": "Position on the map grid or world space."
+        },
+        "bounds": {
+          "type": "object",
+          "description": "Spatial extent for area locations.",
+          "additionalProperties": false,
+          "properties": {
+            "width": { "type": "number", "minimum": 0 },
+            "height": { "type": "number", "minimum": 0 },
+            "radius": { "type": "number", "minimum": 0 },
+            "unit": {
+              "type": "string",
+              "description": "Unit of measure (e.g. tiles, meters, normalized).",
+              "maxLength": 32
+            }
+          }
+        },
+        "layer": {
+          "type": "string",
+          "description": "Render or logic layer (e.g. surface, underground, interior).",
+          "maxLength": 64
+        },
+        "icon": {
+          "type": "string",
+          "description": "Map marker icon identifier or URI.",
+          "maxLength": 512
+        },
+        "markerStyle": {
+          "type": "string",
+          "description": "Visual marker treatment on maps.",
+          "maxLength": 128
+        },
+        "minZoom": {
+          "type": "number",
+          "description": "Minimum map zoom level at which this location is visible.",
+          "minimum": 0
+        },
+        "maxZoom": {
+          "type": "number",
+          "description": "Maximum map zoom level at which this location is emphasized.",
+          "minimum": 0
+        },
+        "discoverable": {
+          "type": "boolean",
+          "description": "Whether the location appears on maps before being visited in stories or games.",
+          "default": true
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "cameraProfile": {
+      "type": "object",
+      "description": "Reusable camera and framing guidance for illustration, animation, and AI image generation. Model-agnostic.",
+      "additionalProperties": false,
+      "properties": {
+        "preferredAngles": {
+          "type": "array",
+          "description": "Typical camera angles (e.g. eye-level, low angle, over-the-shoulder).",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "establishingShot": {
+          "type": "string",
+          "description": "Description of the canonical wide or introductory framing for this location.",
+          "maxLength": 2000
+        },
+        "interiorViews": {
+          "type": "array",
+          "description": "Suggested interior camera treatments when applicable.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "aerialViews": {
+          "type": "array",
+          "description": "Suggested overhead or distant framing when applicable.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "cinematicNotes": {
+          "type": "string",
+          "description": "Additional framing, movement, or composition notes for visual teams.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "imageProfile": {
+      "type": "object",
+      "description": "Model-agnostic visual generation settings for environments. Avoid engine-specific parameters. Consumers may merge with cameraProfile for complete framing guidance.",
+      "additionalProperties": false,
+      "properties": {
+        "defaultPrompt": {
+          "type": "string",
+          "description": "Base positive prompt describing the location's canonical visual appearance.",
+          "maxLength": 4000
+        },
+        "negativePrompt": {
+          "type": "string",
+          "description": "Base negative prompt excluding undesired visual elements.",
+          "maxLength": 4000
+        },
+        "artStyle": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "lighting": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "renderingStyle": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "cameraStyle": {
+          "type": "string",
+          "description": "Legacy shorthand for typical framing. Prefer cameraProfile for structured guidance in v1.1+.",
+          "maxLength": 256
+        },
+        "timeOfDay": {
+          "type": "string",
+          "description": "Default time of day for generated imagery.",
+          "enum": ["dawn", "morning", "midday", "afternoon", "dusk", "evening", "night", "unspecified"]
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    },
+    "promptTemplate": {
+      "type": "object",
+      "description": "Reusable, model-agnostic prompt template for a specific AI generation purpose.",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "maxLength": 8000
+        },
+        "negativePrompt": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "mergeStrategy": {
+          "type": "string",
+          "enum": ["standalone", "append", "prepend", "override", "unspecified"],
+          "default": "unspecified"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    },
+    "promptProfile": {
+      "type": "object",
+      "description": "Centralized prompt templates for AI systems. Complements imageProfile and atmosphere.",
+      "additionalProperties": {
+        "$ref": "#/$defs/promptTemplate"
+      },
+      "properties": {
+        "image": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for location image and establishing shots."
+        },
+        "story": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for AI story generation set in this location."
+        },
+        "map": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for map tile or cartographic illustration generation."
+        },
+        "thumbnail": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for compact preview images."
+        },
+        "ambient": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for ambient audio or soundscape direction."
+        }
+      }
+    },
+    "tag": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 48
+    },
+    "mediaReference": {
+      "type": "object",
+      "description": "Pointer to an associated asset.",
+      "additionalProperties": false,
+      "required": ["type", "uri"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["image", "illustration", "map", "audio", "video", "model", "tileset", "other"]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "alt": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    },
+    "references": {
+      "type": "object",
+      "description": "Cross-references to related repository content.",
+      "additionalProperties": false,
+      "properties": {
+        "markdown": {
+          "type": "string",
+          "description": "Relative path to the narrative Markdown profile.",
+          "maxLength": 512
+        },
+        "episodes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true,
+          "maxItems": 500
+        },
+        "characters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "objects": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "locations": {
+          "type": "array",
+          "description": "Related location identifiers not covered by hierarchy or connections.",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true,
+          "maxItems": 100
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Audit and editorial tracking fields.",
+      "additionalProperties": false,
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "author": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Forward-compatible extension namespace. Keys must use reverse-domain notation.",
+      "additionalProperties": true,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
+      }
+    }
+  },
+  "examples": [
+    {
+      "schemaVersion": "1.1.0",
+      "id": "example-region",
+      "name": "Example Region",
+      "canonicalName": "Example Region",
+      "displayName": "Example Region",
+      "kind": "region",
+      "kindCategory": "region",
+      "status": "canonical",
+      "summary": "A broad storybook region containing villages, forests, and landmarks.",
+      "description": "A diverse region where settlements, woodland, and open country connect through paths and rivers.",
+      "hierarchy": {
+        "depth": 0,
+        "childIds": ["example-village", "north-forest", "example-meadow"]
+      },
+      "geography": {
+        "biome": "mixed",
+        "climate": "temperate",
+        "terrain": "rolling",
+        "elevation": "low"
+      },
+      "atmosphere": {
+        "mood": ["hopeful", "adventurous", "peaceful"],
+        "palette": ["green", "gold", "sky blue"]
+      },
+      "storyRoles": [
+        { "role": "setting", "primary": true },
+        { "role": "boundary" }
+      ],
+      "dangerProfile": {
+        "dangerLevel": 1,
+        "safetyDescription": "Generally safe for young explorers with gentle natural hazards.",
+        "supervisionRecommended": false
+      },
+      "weatherProfile": {
+        "typicalWeather": ["clear skies", "light breeze"],
+        "possibleWeather": ["light rain", "morning mist"],
+        "rareWeather": ["double rainbow after rain"]
+      },
+      "kindProfile": {
+        "regionType": "storybook realm",
+        "scale": "medium",
+        "dominantBiomes": ["forest", "grassland", "mixed"]
+      },
+      "mapProfile": {
+        "mapId": "example-region",
+        "discoverable": true,
+        "minZoom": 1,
+        "maxZoom": 10
+      },
+      "cameraProfile": {
+        "establishingShot": "Wide panoramic view showing villages, forest, and open meadows under soft daylight.",
+        "aerialViews": ["gentle overhead map-style view of the full region"]
+      },
+      "tags": ["region", "world"],
+      "metadata": { "revision": 1 }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "id": "example-village",
+      "name": "Example Village",
+      "canonicalName": "Example Village",
+      "displayName": "Example Village",
+      "kind": "village",
+      "kindCategory": "settlement",
+      "status": "canonical",
+      "summary": "A small, welcoming settlement surrounded by meadows and woodland.",
+      "description": "A cozy village where paths wind between gardens and low rooftops. Neighbors greet one another, and adventure often begins at the village edge.",
+      "hierarchy": {
+        "parentId": "example-region",
+        "depth": 1,
+        "ancestorIds": ["example-region"],
+        "childIds": ["example-building"]
+      },
+      "geography": {
+        "regionId": "example-region",
+        "biome": "mixed",
+        "climate": "temperate",
+        "terrain": "rolling",
+        "elevation": "low"
+      },
+      "atmosphere": {
+        "mood": ["peaceful", "welcoming", "lively"],
+        "lighting": "soft daylight",
+        "palette": ["green", "cream", "warm brown"],
+        "sounds": ["birdsong", "distant laughter", "wind in trees"]
+      },
+      "storyRoles": [
+        { "role": "home", "primary": true },
+        { "role": "hub" }
+      ],
+      "storyFunctions": [
+        { "function": "meeting-place", "weight": 0.9 },
+        { "function": "journey-start", "weight": 0.6 }
+      ],
+      "seasonality": {
+        "preferredSeasons": ["spring", "summer"],
+        "preferredTimesOfDay": ["morning", "afternoon"]
+      },
+      "accessibility": {
+        "audienceLevel": "all-ages",
+        "emotionalIntensity": "calm"
+      },
+      "dangerProfile": {
+        "dangerLevel": 0,
+        "safetyDescription": "A safe home setting suitable for all ages.",
+        "supervisionRecommended": false
+      },
+      "weatherProfile": {
+        "typicalWeather": ["sunny", "partly cloudy"],
+        "possibleWeather": ["gentle rain"]
+      },
+      "events": [
+        {
+          "id": "harvest-festival",
+          "name": "Harvest Festival",
+          "description": "An annual celebration with music, shared food, and lantern light.",
+          "season": "autumn",
+          "recurrence": "annual"
+        },
+        {
+          "id": "storytelling-evening",
+          "name": "Storytelling Evening",
+          "description": "Neighbors gather to share tales on warm evenings.",
+          "season": "any",
+          "recurrence": "monthly"
+        }
+      ],
+      "residentCharacters": [
+        {
+          "characterId": "example-human",
+          "residenceType": "permanent",
+          "description": "Lives in the village with family."
+        }
+      ],
+      "featuredCharacters": [
+        "example-animal"
+      ],
+      "connections": [
+        {
+          "targetId": "north-forest",
+          "type": "path",
+          "label": "Forest Path",
+          "travelTime": "short walk",
+          "bidirectional": true
+        }
+      ],
+      "secrets": [
+        {
+          "id": "hidden-garden",
+          "title": "Hidden Garden",
+          "description": "A small walled garden behind the oldest house, filled with herbs and quiet benches.",
+          "visibility": "discoverable",
+          "discoveryConditions": ["follow the stone path behind the community hall", "visit in spring"]
+        }
+      ],
+      "kindProfile": {
+        "settlementType": "village",
+        "populationScale": "small",
+        "primaryActivity": "farming"
+      },
+      "mapProfile": {
+        "mapId": "example-region",
+        "position": { "x": 120, "y": 80, "system": "grid" },
+        "icon": "icons/settlement-village",
+        "discoverable": true
+      },
+      "imageProfile": {
+        "defaultPrompt": "small friendly village, rolling meadows, storybook illustration, warm daylight",
+        "negativePrompt": "dark, scary, ruins, adult themes",
+        "artStyle": "soft watercolor illustration",
+        "lighting": "soft daylight"
+      },
+      "cameraProfile": {
+        "preferredAngles": ["eye-level", "gentle wide angle"],
+        "establishingShot": "Wide establishing shot of the village square with paths leading outward.",
+        "cinematicNotes": "Keep framing warm and inviting; emphasize community spaces."
+      },
+      "promptProfile": {
+        "story": {
+          "prompt": "Write a gentle adventure beginning in {{displayName}}, {{summary}}",
+          "mergeStrategy": "standalone"
+        }
+      },
+      "tags": ["settlement", "outdoors"],
+      "metadata": { "revision": 2 }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "north-forest",
+      "name": "North Forest",
+      "kind": "forest",
+      "status": "canonical",
+      "summary": "A sun-dappled forest full of trails, wildlife, and quiet discoveries.",
+      "hierarchy": {
+        "parentId": "example-region",
+        "depth": 1,
+        "ancestorIds": ["example-region"]
+      },
+      "geography": {
+        "regionId": "example-region",
+        "biome": "forest",
+        "climate": "temperate",
+        "terrain": "rolling"
+      },
+      "atmosphere": {
+        "mood": ["curious", "peaceful"],
+        "lighting": "dappled sunlight through leaves",
+        "sounds": ["rustling leaves", "stream in distance"],
+        "scents": ["pine", "damp earth"]
+      },
+      "storyRoles": [
+        { "role": "discovery-site", "primary": true }
+      ],
+      "storyFunctions": [
+        { "function": "exploration", "weight": 1.0 }
+      ],
+      "connections": [
+        {
+          "targetId": "example-village",
+          "type": "path",
+          "bidirectional": true
+        }
+      ],
+      "kindProfile": {
+        "density": "moderate",
+        "canopy": "partial",
+        "trailAccess": "moderate",
+        "notableFlora": ["ferns", "wildflowers"]
+      },
+      "imageProfile": {
+        "artStyle": "storybook forest illustration",
+        "lighting": "dappled daylight",
+        "cameraStyle": "eye-level path perspective"
+      },
+      "tags": ["forest", "nature", "exploration"]
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "example-building",
+      "name": "Example Building",
+      "kind": "building",
+      "status": "canonical",
+      "summary": "A sturdy community building with warm rooms and a welcoming entrance.",
+      "hierarchy": {
+        "parentId": "example-village",
+        "depth": 2,
+        "childIds": ["example-room"],
+        "ancestorIds": ["example-region", "example-village"]
+      },
+      "storyRoles": [
+        { "role": "setting", "primary": true }
+      ],
+      "kindProfile": {
+        "buildingType": "community hall",
+        "floors": 2,
+        "occupancy": "public"
+      },
+      "connections": [
+        {
+          "targetId": "example-room",
+          "type": "door",
+          "label": "Main Room",
+          "bidirectional": true
+        }
+      ],
+      "tags": ["building", "indoor"]
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "example-room",
+      "name": "Example Room",
+      "kind": "room",
+      "status": "canonical",
+      "summary": "A bright room used for gatherings, reading, and quiet conversation.",
+      "hierarchy": {
+        "parentId": "example-building",
+        "depth": 3,
+        "ancestorIds": ["example-region", "example-village", "example-building"],
+        "path": "Example Region / Example Village / Example Building / Example Room"
+      },
+      "atmosphere": {
+        "mood": ["cozy", "calm"],
+        "lighting": "warm indoor light",
+        "sounds": ["soft footsteps", "clock ticking"]
+      },
+      "storyFunctions": [
+        { "function": "learning-space", "weight": 0.8 }
+      ],
+      "kindProfile": {
+        "roomType": "reading room",
+        "floor": 1,
+        "capacity": 12
+      },
+      "accessibility": {
+        "audienceLevel": "all-ages",
+        "emotionalIntensity": "calm"
+      },
+      "tags": ["room", "indoor"]
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "id": "example-meadow",
+      "name": "Example Meadow",
+      "kind": "meadow",
+      "kindCategory": "natural",
+      "status": "canonical",
+      "summary": "An open meadow of wildflowers and gentle hills.",
+      "hierarchy": {
+        "parentId": "example-region",
+        "depth": 1,
+        "ancestorIds": ["example-region"]
+      },
+      "geography": {
+        "regionId": "example-region",
+        "biome": "grassland",
+        "terrain": "rolling"
+      },
+      "kindProfile": {
+        "subtype": "wildflower meadow",
+        "attributes": {
+          "flower-density": "high",
+          "grazing": false,
+          "trail-access": "moderate"
+        }
+      },
+      "tags": ["meadow", "nature", "custom-kind"]
+    }
+  ]
+}
