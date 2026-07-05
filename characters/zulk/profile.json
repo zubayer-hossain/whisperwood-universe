@@ -148,7 +148,8 @@
   },
   "kindProfile": {
     "ageRange": "child",
-    "roles": ["protagonist", "explorer"]
+    "roles": ["protagonist", "explorer", "sibling"],
+    "familyGroup": "zulk-zaya"
   },
   "voiceProfile": {
     "tone": "friendly and warm",
@@ -226,8 +227,8 @@
   "relationships": [
     {
       "targetId": "zaya",
-      "type": "companion",
-      "description": "Placeholder — flagship co-protagonist. Full relationship to be defined when canonical record is created.",
+      "type": "sibling",
+      "description": "Younger sister and co-protagonist. They adventure together with love, teamwork, playful disagreement, and forgiveness — neither overshadows the other.",
       "bidirectional": true
     },
     {

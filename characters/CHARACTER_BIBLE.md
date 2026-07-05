@@ -37,7 +37,7 @@ Stable character IDs (kebab-case) are listed for cross-reference. IDs are perman
 | Character | ID | Species | Primary Role | Story Functions | Signature Item | Personality Summary | Canon Status |
 |-----------|-----|---------|--------------|-----------------|----------------|---------------------|--------------|
 | **Zulk** | `zulk` | Human (child) | Main Character | Explorer, Leader, Problem Solver, Learner, Encourager | Explorer Backpack | Curious, brave, helpful, and enthusiastic; acts quickly and learns from mistakes | **Canonical** — [profile](zulk/profile.json) |
-| **Zaya** | `zaya` | Pending profile | Main Character (co-protagonist) | Pending profile | Pending profile | Pending profile — flagship co-protagonist of *Zulk & Zaya* | **Planned Canon Character** |
+| **Zaya** | `zaya` | Human (child) | Main Character | Heart of the Team, Emotional Connector, Creative Thinker, Helper, Encourager, Curious Learner | Magic Lantern | Imaginative, gentle, optimistic; connects through empathy; Zulk's younger sister | **Canonical** — [profile](zaya/profile.json) |
 | **Finn** | `finn` | Pending profile | Supporting | Pending profile | Pending profile | Trusted woodland friend | **Planned Canon Character** |
 | **Gia** | `gia` | Pending profile | Supporting | Observer (intended) | Pending profile | Often notices details others miss | **Planned Canon Character** |
 | **Toby** | `toby` | Pending profile | Mentor | Mentor (intended) | Pending profile | Provides calm guidance | **Planned Canon Character** |
@@ -46,7 +46,7 @@ Stable character IDs (kebab-case) are listed for cross-reference. IDs are perman
 
 ### Roster notes
 
-- **Zulk** is the only character with a complete canonical record at this time. All fields for Zulk reflect [characters/zulk/profile.json](zulk/profile.json).
+- **Zulk** and **Zaya** have complete canonical records. All fields reflect their respective `profile.json` files.
 - **Planned Canon Characters** are approved for the flagship cast but do not yet have `profile.json` records. Do not invent detailed backstory, appearance, or dialogue for them beyond the high-level summaries in this document.
 - Story functions marked *intended* reflect executive casting direction only — they must be confirmed in each character's profile before production use.
 
@@ -90,7 +90,7 @@ Each major character exists because Whisperwood needs **distinct narrative utili
 | Character | Storytelling purpose | What they bring that others do not |
 |-----------|---------------------|-----------------------------------|
 | **Zulk** | Flagship protagonist — initiates adventure | Forward energy, exploration drive, leadership, learns from impulsive mistakes |
-| **Zaya** | Flagship co-protagonist — completes the duo | *Pending profile* — must complement Zulk without duplicating explorer/leader primary functions |
+| **Zaya** | Flagship co-protagonist — completes the duo | Emotional connection, creative empathy, wonder — complements Zulk without duplicating explorer/leader functions |
 | **Finn** | Woodland trust and natural-world connection | Loyalty, comfort in outdoor settings, bridge to Whisperwood's living environment |
 | **Gia** | Observation and detail | Spots clues, patterns, and quiet truths — supports discovery and mystery frameworks |
 | **Toby** | Calm mentorship | Steady guidance, emotional regulation, perspective — supports learning without preaching |
@@ -107,7 +107,7 @@ Each major character exists because Whisperwood needs **distinct narrative utili
 | Practical / mechanical solutions | Duffy | Zulk (problem-solver) |
 | Aerial perspective | Mako | — |
 | Woodland companionship | Finn | — |
-| Co-protagonist emotional anchor | Zaya (pending) | Zulk |
+| Co-protagonist emotional anchor | Zaya | Zulk (explorer-leader) |
 
 When two characters appear together, **combine complementary functions** — do not assign the same beat to both (e.g. both notice the same clue, both deliver the same mentor speech).
 
@@ -116,7 +116,7 @@ When two characters appear together, **combine complementary functions** — do 
 | Character | Natural framework affinity |
 |-----------|---------------------------|
 | Zulk | Adventure, Discovery, Helping |
-| Zaya | Pending profile |
+| Zaya | Friendship, Discovery, Helping |
 | Finn | Adventure, Friendship, Helping |
 | Gia | Mystery, Discovery |
 | Toby | Helping, Friendship |
@@ -185,7 +185,7 @@ AI assistants must read this document **before generating stories, outlines, cas
 
 | Task | Guidance |
 |------|----------|
-| **Understand available protagonists** | Zulk is canonical; Zaya is planned co-protagonist — treat as siblings in relationship context; await profile for detailed traits |
+| **Understand available protagonists** | Zulk and Zaya are both canonical co-protagonists and siblings — use full profiles for detailed traits |
 | **Understand supporting roles** | Finn, Gia, Toby, Mako, Duffy are planned — use only high-level traits from this bible |
 | **Avoid duplicate story functions** | Check Cast Balance before assigning beats |
 | **Maintain consistent character usage** | Do not rename, merge, or reinterpret characters without approval |
@@ -258,8 +258,8 @@ The measure of success: **a child names the character and knows what they do** �
 |-------|-------|
 | **Document** | Character Bible |
 | **Scope** | Major recurring cast — executive overview |
-| **Canonical characters** | 1 (Zulk) |
-| **Planned canon characters** | 6 (Zaya, Finn, Gia, Toby, Mako, Duffy) |
+| **Canonical characters** | 2 (Zulk, Zaya) |
+| **Planned canon characters** | 5 (Finn, Gia, Toby, Mako, Duffy) |
 | **Status** | Official studio reference |
 
 Update this document whenever a planned character becomes canonical or when executive cast direction changes through intentional editorial review.

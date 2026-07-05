@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "zaya",
+  "name": "Zaya",
+  "canonicalName": "Zaya",
+  "displayName": "Zaya",
+  "kind": "human",
+  "status": "canonical",
+  "summary": "An imaginative young girl who connects through empathy, asks unexpected questions, and brings warmth and wonder to every adventure in Whisperwood.",
+  "description": "Zaya is one of the two flagship protagonists of the Whisperwood Universe and Zulk's younger sister. Gentle, optimistic, and deeply imaginative, she notices emotional details before logical ones and often solves problems through empathy rather than exploration. She carries a magic lantern that inspires wonder and comfort — never as a weapon or unlimited power. Zaya complements Zulk: where he leads outward, she connects inward. She learns by observing and trying, and her unexpected questions open doors that maps alone cannot find.",
+  "storyRoles": [
+    {
+      "role": "main",
+      "primary": true,
+      "label": "Main Character"
+    }
+  ],
+  "storyFunctions": [
+    {
+      "function": "heart-of-the-team",
+      "weight": 1.0,
+      "label": "Heart of the Team"
+    },
+    {
+      "function": "emotional-connector",
+      "weight": 0.95,
+      "label": "Emotional Connector"
+    },
+    {
+      "function": "creative-thinker",
+      "weight": 0.95,
+      "label": "Creative Thinker"
+    },
+    {
+      "function": "helper",
+      "weight": 0.75,
+      "label": "Helper"
+    },
+    {
+      "function": "encourager",
+      "weight": 0.75,
+      "label": "Encourager"
+    },
+    {
+      "function": "curious-learner",
+      "weight": 0.75,
+      "label": "Curious Learner"
+    }
+  ],
+  "personality": {
+    "traits": [
+      {
+        "label": "imaginative",
+        "description": "Sees possibilities and wonder where others see ordinary things."
+      },
+      {
+        "label": "gentle",
+        "description": "Moves through the world with softness and care for others' feelings."
+      },
+      {
+        "label": "optimistic",
+        "description": "Believes things can work out and helps others believe it too."
+      },
+      {
+        "label": "empathetic",
+        "description": "Notices how people feel before what they think."
+      }
+    ],
+    "mannerisms": [
+      "Tilts her head when listening to someone's feelings",
+      "Holds her magic lantern close when something feels unfamiliar",
+      "Asks unexpected questions that change how others see a problem"
+    ]
+  },
+  "moralValues": [
+    {
+      "label": "kindness",
+      "description": "Chooses care in words and actions, especially when someone is hurting."
+    },
+    {
+      "label": "empathy",
+      "description": "Tries to understand how others feel before offering help."
+    },
+    {
+      "label": "curiosity",
+      "description": "Asks questions that come from the heart as much as the mind."
+    },
+    {
+      "label": "gratitude",
+      "description": "Notices good things — small and large — and appreciates them aloud."
+    },
+    {
+      "label": "honesty",
+      "description": "Shares her feelings truthfully, even when they are hard to say."
+    }
+  ],
+  "strengths": [
+    {
+      "label": "empathy",
+      "description": "Understands feelings and helps others feel seen and supported."
+    },
+    {
+      "label": "creativity",
+      "description": "Imagines kind solutions others might not consider."
+    },
+    {
+      "label": "observation",
+      "description": "Notices emotional details and quiet moments that matter."
+    },
+    {
+      "label": "encouragement",
+      "description": "Lifts others with warmth, claps, and honest belief in them."
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "nervous in unfamiliar places",
+      "description": "May hesitate when surroundings feel new or uncertain — grows with support."
+    },
+    {
+      "label": "emotion-first",
+      "description": "Sometimes feels before thinking — needs a moment to find words."
+    }
+  ],
+  "birthday": {
+    "known": true,
+    "month": 5,
+    "day": 6,
+    "lifeStage": "child"
+  },
+  "favorites": {
+    "activity": "imagining stories and sharing wonder with others",
+    "season": "spring"
+  },
+  "signatureItems": [
+    {
+      "label": "Magic Lantern",
+      "description": "A gentle lantern that inspires wonder and comfort. Symbolic — not a weapon and never unlimited magic. Its light supports stories; it does not replace kindness, courage, or cooperation.",
+      "alwaysPresent": true
+    }
+  ],
+  "appearance": {
+    "summary": "A gentle young girl with dark hair, a warm smile, and bright expressive eyes. She carries a magic lantern that glows softly in moments of wonder. Clothing is simple and comfortable — kept generic for artistic evolution.",
+    "colors": ["soft pastels", "warm accents"],
+    "distinguishingFeatures": [
+      "dark hair",
+      "warm smile",
+      "expressive eyes",
+      "magic lantern"
+    ],
+    "size": "tiny",
+    "notes": "Avoid over-specifying clothing. Younger and smaller in stature than Zulk. Design should remain flexible across books, animation, and merchandise."
+  },
+  "kindProfile": {
+    "ageRange": "child",
+    "roles": ["protagonist", "sibling"],
+    "familyGroup": "zulk-zaya"
+  },
+  "voiceProfile": {
+    "tone": "gentle and warm",
+    "energy": "medium",
+    "pitch": "medium-high",
+    "speakingSpeed": "moderate",
+    "emotionalStyle": "playful and hopeful",
+    "vocabularyLevel": "simple",
+    "notes": "Voice should feel soft, sincere, and age-appropriate for a young child — never sharp, sarcastic, or overly mature."
+  },
+  "animationProfile": {
+    "defaultState": "idle",
+    "clips": {
+      "idle": {
+        "reference": "assets/animation/idle",
+        "loop": true,
+        "description": "Gentle stance, lantern visible, subtle breathing."
+      },
+      "walk": {
+        "reference": "assets/animation/walk",
+        "loop": true,
+        "description": "Small, steady steps — unhurried and curious."
+      },
+      "run": {
+        "reference": "assets/animation/run",
+        "loop": true,
+        "description": "Light, joyful run — excitement, never panic."
+      },
+      "hop": {
+        "reference": "assets/animation/hop",
+        "description": "Playful hop — delight or celebration."
+      },
+      "clap": {
+        "reference": "assets/animation/clap",
+        "description": "Encouraging applause for others."
+      },
+      "wave": {
+        "reference": "assets/animation/wave",
+        "description": "Soft, open greeting wave."
+      },
+      "laugh": {
+        "reference": "assets/animation/laugh",
+        "description": "Bright, gentle laughter."
+      },
+      "hug": {
+        "reference": "assets/animation/hug",
+        "description": "Warm embrace — comfort and connection."
+      },
+      "wonder": {
+        "reference": "assets/animation/wonder",
+        "description": "Lantern glow, wide eyes, quiet awe — magic as comfort."
+      },
+      "dance": {
+        "reference": "assets/animation/dance",
+        "loop": true,
+        "description": "Small, playful dance — joy without performance."
+      },
+      "observe": {
+        "reference": "assets/animation/observe",
+        "description": "Stillness, watching and listening — learning by seeing."
+      }
+    },
+    "notes": "Movement is soft, playful, and expressive. Zaya is gentle, not timid — readable at a glance."
+  },
+  "imageProfile": {
+    "defaultPrompt": "gentle young girl, dark hair, warm smile, expressive eyes, magic lantern soft glow, children's storybook illustration, warm peaceful atmosphere",
+    "negativePrompt": "scary, dark, realistic horror, adult themes, weapon, unlimited magic effects, overly detailed clothing, brand logos",
+    "artStyle": "soft storybook illustration",
+    "lighting": "warm daylight or soft lantern glow",
+    "renderingStyle": "hand-drawn or painterly",
+    "cameraStyle": "eye-level, approachable portrait or gentle adventure scene",
+    "notes": "Visual consistency only — no engine-specific settings. Lantern glow is gentle and symbolic. Keep clothing generic across media."
+  },
+  "promptProfile": {
+    "story": {
+      "prompt": "Write a gentle Whisperwood adventure featuring {{displayName}}, an imaginative young girl who connects through empathy, asks unexpected questions, and finds kind solutions alongside her brother Zulk.",
+      "mergeStrategy": "standalone"
+    },
+    "thumbnail": {
+      "prompt": "Portrait of {{displayName}}, dark hair, warm smile, expressive eyes, soft magic lantern glow, soft storybook style",
+      "mergeStrategy": "prepend"
+    }
+  },
+  "relationships": [
+    {
+      "targetId": "zulk",
+      "type": "sibling",
+      "description": "Older brother and co-protagonist. They adventure together with love, teamwork, playful disagreement, and forgiveness — neither overshadows the other.",
+      "bidirectional": true
+    },
+    {
+      "targetId": "finn",
+      "type": "friend",
+      "description": "Placeholder — trusted woodland friend. Full relationship to be defined when canonical record is created.",
+      "bidirectional": true
+    }
+  ],
+  "tags": [
+    "protagonist",
+    "main-character",
+    "child",
+    "human",
+    "flagship",
+    "sibling"
+  ],
+  "references": {
+    "markdown": "profile.md"
+  },
+  "metadata": {
+    "revision": 1,
+    "notes": "Second canonical flagship character. Co-protagonist of Zulk & Zaya. Complements Zulk's explorer-leader role."
+  }
+}

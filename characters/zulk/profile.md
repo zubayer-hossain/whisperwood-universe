@@ -104,11 +104,11 @@ Weaknesses are **teachable**, never mockable. Zulk's flaws make him relatable â€
 
 Zulk often **initiates** adventures but should not **dominate** them. Co-protagonists and friends contribute equally to resolution. Stories end with hope; Zulk's arc reinforces that trying, learning, and caring matter more than being first.
 
-**Relationships (placeholders):**
+**Relationships:**
 
 | ID | Type | Status |
 |----|------|--------|
-| `zaya` | Companion / co-protagonist | Pending full definition |
+| `zaya` | Sibling / co-protagonist | Canonical â€” [zaya/profile.json](../zaya/profile.json) |
 | `finn` | Friend | Pending full definition |
 
 ---
