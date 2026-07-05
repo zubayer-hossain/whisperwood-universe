@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "001-the-lost-little-light",
+  "title": "The Lost Little Light",
+  "canonicalTitle": "The Lost Little Light",
+  "displayTitle": "The Lost Little Light",
+  "series": "zulk-zaya",
+  "episodeNumber": 1,
+  "status": "canonical",
+  "summary": "Zulk and Zaya discover a tiny glowing light drifting through Whisperwood. When it seems lost, the siblings work together with patience and kindness to help it find its way home — without keeping it or expecting a reward.",
+  "description": "Episode 001 of the Whisperwood Universe. A Discovery-framework story proving the flagship duo Zulk and Zaya can carry a gentle adventure alone. One central problem, no villain, no danger. Visual storytelling dominates; dialogue is minimal. The lost little light is a soft wonder of the forest — not a weapon, not unlimited magic, and not a recurring character. Resolution comes through curiosity, empathy, cooperation, and patience.",
+  "framework": {
+    "id": "discovery",
+    "label": "Discovery Framework",
+    "reference": "../../story-frameworks/discovery-framework.md",
+    "notes": "Primary framework. Discovery of the light and of how to help; secondary thread of gentle helping without reward."
+  },
+  "characters": [
+    {
+      "characterId": "zulk",
+      "role": "protagonist",
+      "storyFunction": "explorer",
+      "notes": "Notices the light first; suggests paths and leads movement. Learns to pause when Zaya's empathy reveals the light needs patience, not speed."
+    },
+    {
+      "characterId": "zaya",
+      "role": "protagonist",
+      "storyFunction": "emotional-connector",
+      "notes": "Senses that the light feels lost; encourages gentle approach. Her magic lantern offers comfort only — it does not capture or solve the problem."
+    }
+  ],
+  "locations": [],
+  "objects": [],
+  "targetAge": {
+    "min": 4,
+    "max": 8,
+    "label": "ages 4–8"
+  },
+  "estimatedDuration": {
+    "minutes": 7,
+    "seconds": null,
+    "format": "animated-short",
+    "notes": "Target range 6–8 minutes. Six scenes; visual storytelling with minimal dialogue."
+  },
+  "learningGoals": [
+    {
+      "label": "helping-without-reward",
+      "description": "Helping others without expecting a reward — kindness is its own warmth."
+    },
+    {
+      "label": "patience",
+      "description": "Waiting and paying attention can succeed when rushing cannot."
+    },
+    {
+      "label": "cooperation",
+      "description": "Different strengths — exploration and empathy — work best together."
+    }
+  ],
+  "themes": [
+    "curiosity",
+    "kindness",
+    "discovery",
+    "family",
+    "hope"
+  ],
+  "emotionalArc": {
+    "opening": "curiosity",
+    "conflict": "concern",
+    "escalation": "cooperation",
+    "resolution": "hope",
+    "closing": "joy",
+    "notes": "Extended arc: curiosity → wonder → concern → cooperation → hope → joy. Wonder peaks in scenes 001–002; concern in 003; cooperation in 004–005."
+  },
+  "storyStructure": {
+    "beginning": "Morning exploration on a familiar forest path. Zulk and Zaya notice a tiny glowing light drifting slowly between the trees — something they have never seen before.",
+    "middle": "The light wavers and dims; it seems lost. Zulk wants to lead it quickly; Zaya feels it needs gentleness. Together they try, pause, listen, and follow clues the forest offers.",
+    "ending": "The light finds its way to a sunlit place where it belongs among other soft glows. Zulk and Zaya watch it settle home, smile at each other, and turn toward the path — ready for whatever wonder comes next."
+  },
+  "lesson": {
+    "summary": "Helping someone find their way — patiently, kindly, and without asking for anything in return — can be its own happy ending.",
+    "values": ["kindness", "curiosity", "patience", "empathy"]
+  },
+  "productionStatus": {
+    "stage": "writing",
+    "notes": "Canonical outline and storyboard complete. Awaiting illustration and audio production."
+  },
+  "deliverables": [
+    {
+      "format": "animated-short",
+      "status": "planned",
+      "notes": "Primary deliverable. 6–8 minutes, 16:9."
+    },
+    {
+      "format": "picture-book",
+      "status": "planned",
+      "notes": "Optional adaptation — six spreads aligned to six scenes."
+    }
+  ],
+  "tags": [
+    "episode-001",
+    "flagship",
+    "zulk-zaya",
+    "discovery",
+    "canonical"
+  ],
+  "references": {
+    "markdown": "episode.md",
+    "storyboard": "storyboard.md",
+    "production": "production.md"
+  },
+  "media": [],
+  "metadata": {
+    "revision": 1,
+    "notes": "First official Whisperwood episode. Flagship duo only. Setting described narratively until canonical location records are created."
+  }
+}
