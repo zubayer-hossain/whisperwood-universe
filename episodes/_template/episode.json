@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "episode-example",
+  "title": "Example Episode Title",
+  "canonicalTitle": "Example Episode Title",
+  "displayTitle": "Example Episode Title",
+  "series": "example-series",
+  "episodeNumber": null,
+  "status": "draft",
+  "summary": "Example summary — replace with a brief overview of this episode suitable for listings, APIs, and Story Studio.",
+  "description": "Example description — replace with an extended production summary for editors and AI context. Do not write full story prose here unless in approved script form.",
+  "framework": {
+    "id": "adventure",
+    "label": "Adventure Framework",
+    "reference": "../../story-frameworks/adventure-framework.md",
+    "notes": "Example — replace with the framework that guides this episode's structure."
+  },
+  "characters": [
+    {
+      "characterId": "character-example",
+      "role": "protagonist",
+      "storyFunction": "explorer",
+      "notes": "Example casting note — replace with canonical character id and episode-specific role."
+    },
+    {
+      "characterId": "character-example-supporting",
+      "role": "supporting",
+      "storyFunction": "helper",
+      "notes": "Example supporting cast entry — remove or replace."
+    }
+  ],
+  "locations": [
+    {
+      "locationId": "location-example",
+      "role": "primary-setting",
+      "notes": "Example location — replace with canonical location id."
+    }
+  ],
+  "objects": [
+    {
+      "objectId": "object-example",
+      "role": "story-prop",
+      "notes": "Example object — replace with canonical object id or remove."
+    }
+  ],
+  "targetAge": {
+    "min": 4,
+    "max": 8,
+    "label": "ages 4–8"
+  },
+  "estimatedDuration": {
+    "minutes": 8,
+    "seconds": null,
+    "format": "animated-short",
+    "notes": "Example duration — adjust per deliverable format (picture-book, app, youtube, etc.)."
+  },
+  "learningGoals": [
+    {
+      "label": "kindness",
+      "description": "Example learning goal — replace with the value or skill this episode reinforces through action."
+    },
+    {
+      "label": "teamwork",
+      "description": "Example secondary goal — remove if not needed."
+    }
+  ],
+  "themes": [
+    "curiosity",
+    "friendship"
+  ],
+  "emotionalArc": {
+    "opening": "anticipation",
+    "conflict": "concern",
+    "escalation": "determination",
+    "resolution": "relief",
+    "closing": "hope",
+    "notes": "Example emotional arc — align with selected Story Framework target emotions."
+  },
+  "storyStructure": {
+    "beginning": "Example beat — replace with episode opening (no full prose).",
+    "middle": "Example beat — replace with escalation and development.",
+    "ending": "Example beat — replace with resolution and closing image."
+  },
+  "lesson": {
+    "summary": "Example implicit lesson — what the audience should feel or understand without being lectured.",
+    "values": ["kindness", "curiosity"]
+  },
+  "productionStatus": {
+    "stage": "outline",
+    "notes": "Example — update as production advances. See production.md checklist."
+  },
+  "deliverables": [
+    {
+      "format": "animated-short",
+      "status": "planned",
+      "notes": "Example deliverable row — add formats as needed."
+    }
+  ],
+  "tags": ["template", "example"],
+  "references": {
+    "markdown": "episode.md",
+    "storyboard": "storyboard.md",
+    "production": "production.md"
+  },
+  "media": [],
+  "metadata": {
+    "revision": 1,
+    "notes": "Template placeholder — not a canonical episode."
+  }
+}
