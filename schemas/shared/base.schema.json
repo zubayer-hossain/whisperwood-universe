@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/shared/base.schema.json",
+  "$title": "Whisperwood Shared Base Definitions",
+  "description": "Reusable primitive and editorial definitions shared across Whisperwood Universe entity schemas.",
+  "$defs": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Semantic version identifying the document format.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "1.1.0"]
+    },
+    "slug": {
+      "type": "string",
+      "description": "Lowercase kebab-case identifier.",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 64,
+      "examples": [
+        "example-character",
+        "example-village",
+        "example-compass"
+      ]
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "tag": {
+      "type": "string",
+      "description": "Lowercase kebab-case label.",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 48
+    },
+    "recordStatus": {
+      "type": "string",
+      "description": "Editorial lifecycle state of the record.",
+      "enum": ["draft", "review", "canonical", "deprecated", "archived"]
+    },
+    "extensibleLabel": {
+      "type": "string",
+      "description": "Standard enum value or custom kebab-case label for forward-compatible classification.",
+      "minLength": 2,
+      "maxLength": 64
+    }
+  }
+}

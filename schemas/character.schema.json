@@ -18,31 +18,31 @@
   ],
   "properties": {
     "schemaVersion": {
-      "$ref": "#/$defs/schemaVersion",
+      "$ref": "./shared/base.schema.json#/$defs/schemaVersion",
       "description": "Semantic version of this document format. Use 1.1.0 or later for records that include v1.1 fields."
     },
     "id": {
-      "$ref": "#/$defs/slug",
+      "$ref": "./shared/base.schema.json#/$defs/slug",
       "description": "Stable, immutable identifier for the character. Never change once assigned. Used in filenames, URLs, APIs, and cross-references."
     },
     "name": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Primary display name of the character. Retained for v1.0 compatibility. When displayName is present, consumers should prefer displayName for presentation and treat name as a legacy alias.",
       "minLength": 1,
       "maxLength": 128
     },
     "canonicalName": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Official canonical name used in documentation, credits, and authoritative references. Does not change unless canon is deliberately revised.",
       "maxLength": 128
     },
     "displayName": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Current presentation name shown in apps, websites, and Story Studio. May evolve over time without affecting id.",
       "maxLength": 128
     },
     "nickname": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Primary informal name used in dialogue and friendly contexts.",
       "maxLength": 64
     },
@@ -50,7 +50,7 @@
       "type": "array",
       "description": "Additional alternative names, nicknames, or titles beyond nickname.",
       "items": {
-        "$ref": "#/$defs/nonEmptyString"
+        "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
       },
       "minItems": 0,
       "uniqueItems": true,
@@ -61,11 +61,11 @@
       "description": "Primary classification of the character."
     },
     "status": {
-      "$ref": "#/$defs/recordStatus",
+      "$ref": "./shared/base.schema.json#/$defs/recordStatus",
       "description": "Editorial lifecycle state of this record."
     },
     "summary": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Brief overview of the character suitable for lists, cards, search results, and API summaries.",
       "minLength": 1,
       "maxLength": 500
@@ -76,7 +76,7 @@
       "maxLength": 10000
     },
     "catchphrase": {
-      "$ref": "#/$defs/nonEmptyString",
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
       "description": "Signature phrase associated with the character, used in dialogue and marketing.",
       "maxLength": 256
     },
@@ -161,19 +161,25 @@
       "description": "Named animation references for games, interactive apps, and AI animation pipelines."
     },
     "imageProfile": {
-      "$ref": "#/$defs/imageProfile",
+      "$ref": "./shared/ai.schema.json#/$defs/imageProfile",
       "description": "Model-agnostic visual generation settings for AI image tools, books, and marketing assets."
     },
     "promptProfile": {
-      "$ref": "#/$defs/promptProfile",
+      "$ref": "./shared/ai.schema.json#/$defs/promptProfile",
       "description": "Reusable prompt templates for AI systems. Complements dedicated profiles; does not replace them."
     },
     "kindProfile": {
       "description": "Kind-specific attributes. Must align with the value of kind.",
       "oneOf": [
-        { "$ref": "#/$defs/humanProfile" },
-        { "$ref": "#/$defs/animalProfile" },
-        { "$ref": "#/$defs/vehicleProfile" }
+        {
+          "$ref": "#/$defs/humanProfile"
+        },
+        {
+          "$ref": "#/$defs/animalProfile"
+        },
+        {
+          "$ref": "#/$defs/vehicleProfile"
+        }
       ]
     },
     "relationships": {
@@ -198,7 +204,7 @@
       "type": "array",
       "description": "Free-form labels for discovery, filtering, and grouping.",
       "items": {
-        "$ref": "#/$defs/tag"
+        "$ref": "./shared/base.schema.json#/$defs/tag"
       },
       "minItems": 0,
       "uniqueItems": true,
@@ -208,7 +214,7 @@
       "type": "array",
       "description": "References to visual or audio assets associated with this character.",
       "items": {
-        "$ref": "#/$defs/mediaReference"
+        "$ref": "./shared/media.schema.json#/$defs/mediaReference"
       },
       "minItems": 0,
       "maxItems": 100
@@ -218,116 +224,107 @@
       "description": "Links to related documentation and structured records."
     },
     "metadata": {
-      "$ref": "#/$defs/metadata",
+      "$ref": "./shared/metadata.schema.json#/$defs/metadata",
       "description": "Provenance, audit, and editorial metadata."
     },
     "extensions": {
-      "$ref": "#/$defs/extensions",
+      "$ref": "./shared/metadata.schema.json#/$defs/extensions",
       "description": "Namespaced extension data for future consumers. Keys should use reverse-domain notation (e.g. com.example.feature)."
     }
   },
   "allOf": [
     {
       "if": {
-        "properties": { "kind": { "const": "human" } },
-        "required": ["kind"]
+        "properties": {
+          "kind": {
+            "const": "human"
+          }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "properties": {
-          "kindProfile": { "$ref": "#/$defs/humanProfile" }
+          "kindProfile": {
+            "$ref": "#/$defs/humanProfile"
+          }
         }
       }
     },
     {
       "if": {
-        "properties": { "kind": { "const": "animal" } },
-        "required": ["kind"]
+        "properties": {
+          "kind": {
+            "const": "animal"
+          }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "properties": {
-          "kindProfile": { "$ref": "#/$defs/animalProfile" }
+          "kindProfile": {
+            "$ref": "#/$defs/animalProfile"
+          }
         }
       }
     },
     {
       "if": {
-        "properties": { "kind": { "const": "vehicle" } },
-        "required": ["kind"]
+        "properties": {
+          "kind": {
+            "const": "vehicle"
+          }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "properties": {
-          "kindProfile": { "$ref": "#/$defs/vehicleProfile" }
+          "kindProfile": {
+            "$ref": "#/$defs/vehicleProfile"
+          }
         }
       }
     }
   ],
   "$defs": {
-    "schemaVersion": {
-      "type": "string",
-      "description": "Semantic version identifying the character document format.",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "examples": ["1.0.0", "1.1.0"]
-    },
-    "slug": {
-      "type": "string",
-      "description": "Lowercase kebab-case identifier.",
-      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
-      "minLength": 2,
-      "maxLength": 64,
-      "examples": ["example-character", "companion-animal", "travel-cart"]
-    },
-    "nonEmptyString": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 2000
-    },
-    "extensibleLabel": {
-      "type": "string",
-      "description": "Standard enum value or custom kebab-case label for forward-compatible classification.",
-      "minLength": 2,
-      "maxLength": 64
-    },
     "characterKind": {
       "type": "string",
       "description": "Top-level character classification.",
-      "enum": ["human", "animal", "vehicle"]
-    },
-    "recordStatus": {
-      "type": "string",
-      "description": "Editorial state of the character record.",
-      "enum": ["draft", "review", "canonical", "deprecated", "archived"]
+      "enum": [
+        "human",
+        "animal",
+        "vehicle"
+      ]
     },
     "lifeStage": {
       "type": "string",
       "description": "Audience-appropriate life stage independent of exact age.",
-      "enum": ["child", "teen", "adult", "elder", "unspecified"]
+      "enum": [
+        "child",
+        "teen",
+        "adult",
+        "elder",
+        "unspecified"
+      ]
     },
     "trait": {
-      "type": "object",
-      "description": "A named trait with optional context.",
-      "additionalProperties": false,
-      "required": ["label"],
-      "properties": {
-        "label": {
-          "$ref": "#/$defs/nonEmptyString",
-          "description": "Short name of the trait.",
-          "maxLength": 128
-        },
-        "description": {
-          "type": "string",
-          "description": "Optional explanation of how the trait manifests in stories.",
-          "maxLength": 1000
-        }
-      }
+      "$ref": "./shared/reference.schema.json#/$defs/labeledItem"
     },
     "moralValue": {
       "type": "object",
       "description": "A core ethical principle that guides character decisions.",
       "additionalProperties": false,
-      "required": ["label"],
+      "required": [
+        "label"
+      ],
       "properties": {
         "label": {
-          "$ref": "#/$defs/extensibleLabel",
+          "$ref": "./shared/base.schema.json#/$defs/extensibleLabel",
           "description": "Name of the value (e.g. kindness, honesty, curiosity)."
         },
         "description": {
@@ -341,7 +338,9 @@
       "type": "object",
       "description": "A narrative role assignment with optional display label.",
       "additionalProperties": false,
-      "required": ["role"],
+      "required": [
+        "role"
+      ],
       "properties": {
         "role": {
           "$ref": "#/$defs/storyRoleValue",
@@ -393,7 +392,9 @@
       "type": "object",
       "description": "A functional story archetype used for story matching and casting.",
       "additionalProperties": false,
-      "required": ["function"],
+      "required": [
+        "function"
+      ],
       "properties": {
         "function": {
           "$ref": "#/$defs/storyFunctionValue",
@@ -450,7 +451,9 @@
       "type": "object",
       "description": "Personality definition for consistent portrayal across text, voice, and animation.",
       "additionalProperties": false,
-      "required": ["traits"],
+      "required": [
+        "traits"
+      ],
       "properties": {
         "traits": {
           "type": "array",
@@ -470,7 +473,7 @@
           "type": "array",
           "description": "Habitual behaviors or recognizable gestures.",
           "items": {
-            "$ref": "#/$defs/nonEmptyString"
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
           },
           "maxItems": 20
         },
@@ -497,17 +500,36 @@
         "energy": {
           "type": "string",
           "description": "Typical vocal energy level (e.g. calm, lively, steady).",
-          "enum": ["low", "medium", "high", "variable", "unspecified"]
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "variable",
+            "unspecified"
+          ]
         },
         "pitch": {
           "type": "string",
           "description": "Relative pitch register.",
-          "enum": ["low", "medium-low", "medium", "medium-high", "high", "unspecified"]
+          "enum": [
+            "low",
+            "medium-low",
+            "medium",
+            "medium-high",
+            "high",
+            "unspecified"
+          ]
         },
         "speakingSpeed": {
           "type": "string",
           "description": "Typical speech rate.",
-          "enum": ["slow", "moderate", "fast", "variable", "unspecified"]
+          "enum": [
+            "slow",
+            "moderate",
+            "fast",
+            "variable",
+            "unspecified"
+          ]
         },
         "accent": {
           "type": "string",
@@ -522,7 +544,12 @@
         "vocabularyLevel": {
           "type": "string",
           "description": "Complexity of word choice appropriate to the character and audience.",
-          "enum": ["simple", "moderate", "advanced", "unspecified"]
+          "enum": [
+            "simple",
+            "moderate",
+            "advanced",
+            "unspecified"
+          ]
         },
         "notes": {
           "type": "string",
@@ -568,16 +595,36 @@
           "type": "object",
           "description": "Named animation clips keyed by action. Standard keys are defined; additional keys are permitted.",
           "properties": {
-            "idle": { "$ref": "#/$defs/animationClipReference" },
-            "walk": { "$ref": "#/$defs/animationClipReference" },
-            "run": { "$ref": "#/$defs/animationClipReference" },
-            "jump": { "$ref": "#/$defs/animationClipReference" },
-            "laugh": { "$ref": "#/$defs/animationClipReference" },
-            "cry": { "$ref": "#/$defs/animationClipReference" },
-            "wave": { "$ref": "#/$defs/animationClipReference" },
-            "sleep": { "$ref": "#/$defs/animationClipReference" },
-            "celebrate": { "$ref": "#/$defs/animationClipReference" },
-            "thinking": { "$ref": "#/$defs/animationClipReference" }
+            "idle": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "walk": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "run": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "jump": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "laugh": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "cry": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "wave": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "sleep": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "celebrate": {
+              "$ref": "#/$defs/animationClipReference"
+            },
+            "thinking": {
+              "$ref": "#/$defs/animationClipReference"
+            }
           },
           "additionalProperties": {
             "$ref": "#/$defs/animationClipReference"
@@ -587,105 +634,6 @@
           "type": "string",
           "description": "General animation direction not tied to a specific clip.",
           "maxLength": 2000
-        }
-      }
-    },
-    "imageProfile": {
-      "type": "object",
-      "description": "Model-agnostic visual generation settings. Avoid engine-specific parameters.",
-      "additionalProperties": false,
-      "properties": {
-        "defaultPrompt": {
-          "type": "string",
-          "description": "Base positive prompt describing the character's canonical visual appearance.",
-          "maxLength": 4000
-        },
-        "negativePrompt": {
-          "type": "string",
-          "description": "Base negative prompt excluding undesired visual elements.",
-          "maxLength": 4000
-        },
-        "artStyle": {
-          "type": "string",
-          "description": "Intended artistic style (e.g. watercolor, flat illustration, soft 3D).",
-          "maxLength": 256
-        },
-        "lighting": {
-          "type": "string",
-          "description": "Preferred lighting mood (e.g. soft daylight, golden hour, gentle indoor).",
-          "maxLength": 256
-        },
-        "renderingStyle": {
-          "type": "string",
-          "description": "Rendering approach (e.g. hand-drawn, cel-shaded, painterly).",
-          "maxLength": 256
-        },
-        "cameraStyle": {
-          "type": "string",
-          "description": "Typical framing or camera treatment (e.g. eye-level, warm portrait, wide establishing).",
-          "maxLength": 256
-        },
-        "notes": {
-          "type": "string",
-          "description": "Additional visual direction for illustrators and image generation systems.",
-          "maxLength": 2000
-        }
-      }
-    },
-    "promptTemplate": {
-      "type": "object",
-      "description": "Reusable, model-agnostic prompt template for a specific AI generation purpose.",
-      "additionalProperties": false,
-      "properties": {
-        "prompt": {
-          "type": "string",
-          "description": "Primary prompt text. May include placeholders documented in notes.",
-          "maxLength": 8000
-        },
-        "negativePrompt": {
-          "type": "string",
-          "description": "Optional negative prompt for generation tasks that support it.",
-          "maxLength": 4000
-        },
-        "mergeStrategy": {
-          "type": "string",
-          "description": "How consumers should combine this template with dedicated profiles (imageProfile, voiceProfile).",
-          "enum": ["standalone", "append", "prepend", "override", "unspecified"],
-          "default": "unspecified"
-        },
-        "notes": {
-          "type": "string",
-          "description": "Placeholder definitions, usage context, and merge instructions.",
-          "maxLength": 2000
-        }
-      }
-    },
-    "promptProfile": {
-      "type": "object",
-      "description": "Centralized prompt templates for AI systems. Complements dedicated profiles; consumers should merge per mergeStrategy to avoid duplication.",
-      "additionalProperties": {
-        "$ref": "#/$defs/promptTemplate"
-      },
-      "properties": {
-        "image": {
-          "$ref": "#/$defs/promptTemplate",
-          "description": "Prompt template for character image generation. Merge with imageProfile when mergeStrategy is append or prepend."
-        },
-        "animation": {
-          "$ref": "#/$defs/promptTemplate",
-          "description": "Prompt template for animation generation or motion direction."
-        },
-        "voice": {
-          "$ref": "#/$defs/promptTemplate",
-          "description": "Prompt template for voice synthesis direction. Merge with voiceProfile attributes."
-        },
-        "thumbnail": {
-          "$ref": "#/$defs/promptTemplate",
-          "description": "Prompt template optimized for small-format preview images."
-        },
-        "story": {
-          "$ref": "#/$defs/promptTemplate",
-          "description": "Prompt template for AI story generation featuring this character."
         }
       }
     },
@@ -749,13 +697,19 @@
           "maxLength": 128
         },
         "placeId": {
-          "$ref": "#/$defs/slug",
+          "$ref": "./shared/base.schema.json#/$defs/slug",
           "description": "Optional structured reference to a location record."
         },
         "season": {
           "type": "string",
           "description": "Favorite season.",
-          "enum": ["spring", "summer", "autumn", "winter", "unspecified"]
+          "enum": [
+            "spring",
+            "summer",
+            "autumn",
+            "winter",
+            "unspecified"
+          ]
         },
         "activity": {
           "type": "string",
@@ -776,15 +730,17 @@
       "type": "object",
       "description": "An iconic belonging closely associated with the character.",
       "additionalProperties": false,
-      "required": ["label"],
+      "required": [
+        "label"
+      ],
       "properties": {
         "label": {
-          "$ref": "#/$defs/nonEmptyString",
+          "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
           "description": "Display name of the item.",
           "maxLength": 128
         },
         "objectId": {
-          "$ref": "#/$defs/slug",
+          "$ref": "./shared/base.schema.json#/$defs/slug",
           "description": "Optional reference to a structured object record."
         },
         "description": {
@@ -822,14 +778,20 @@
           "type": "array",
           "description": "Notable visual markers that aid recognition across media.",
           "items": {
-            "$ref": "#/$defs/nonEmptyString"
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
           },
           "maxItems": 20
         },
         "size": {
           "type": "string",
           "description": "Relative scale or size class.",
-          "enum": ["tiny", "small", "medium", "large", "huge"]
+          "enum": [
+            "tiny",
+            "small",
+            "medium",
+            "large",
+            "huge"
+          ]
         },
         "notes": {
           "type": "string",
@@ -851,7 +813,7 @@
           "type": "array",
           "description": "Social or familial roles (e.g. sibling, neighbor). Distinct from storyRoles.",
           "items": {
-            "$ref": "#/$defs/nonEmptyString"
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
           },
           "maxItems": 20
         },
@@ -868,7 +830,7 @@
       "additionalProperties": false,
       "properties": {
         "species": {
-          "$ref": "#/$defs/nonEmptyString",
+          "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
           "description": "Species or type label (e.g. dog, bird, turtle).",
           "maxLength": 128
         },
@@ -880,13 +842,19 @@
         "communication": {
           "type": "string",
           "description": "How the animal communicates within stories.",
-          "enum": ["speech", "expressive", "silent", "mixed", "unspecified"]
+          "enum": [
+            "speech",
+            "expressive",
+            "silent",
+            "mixed",
+            "unspecified"
+          ]
         },
         "temperament": {
           "type": "array",
           "description": "Species-typical or individual temperament notes.",
           "items": {
-            "$ref": "#/$defs/nonEmptyString"
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
           },
           "maxItems": 10
         }
@@ -898,7 +866,7 @@
       "additionalProperties": false,
       "properties": {
         "vehicleType": {
-          "$ref": "#/$defs/nonEmptyString",
+          "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
           "description": "Classification of vehicle (e.g. cart, boat, aircraft).",
           "maxLength": 128
         },
@@ -935,7 +903,11 @@
         "personification": {
           "type": "string",
           "description": "Degree to which the vehicle behaves as a character.",
-          "enum": ["none", "partial", "full"]
+          "enum": [
+            "none",
+            "partial",
+            "full"
+          ]
         }
       }
     },
@@ -943,14 +915,17 @@
       "type": "object",
       "description": "A directed or labeled connection to another entity.",
       "additionalProperties": false,
-      "required": ["targetId", "type"],
+      "required": [
+        "targetId",
+        "type"
+      ],
       "properties": {
         "targetId": {
-          "$ref": "#/$defs/slug",
+          "$ref": "./shared/base.schema.json#/$defs/slug",
           "description": "Identifier of the related character or entity."
         },
         "type": {
-          "$ref": "#/$defs/nonEmptyString",
+          "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
           "description": "Relationship category (e.g. friend, sibling, companion, owner).",
           "maxLength": 64
         },
@@ -970,10 +945,12 @@
       "type": "object",
       "description": "A storytelling-relevant ability or function.",
       "additionalProperties": false,
-      "required": ["label"],
+      "required": [
+        "label"
+      ],
       "properties": {
         "label": {
-          "$ref": "#/$defs/nonEmptyString",
+          "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
           "maxLength": 128
         },
         "description": {
@@ -995,40 +972,6 @@
         }
       }
     },
-    "tag": {
-      "type": "string",
-      "description": "Lowercase kebab-case label.",
-      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
-      "minLength": 2,
-      "maxLength": 48
-    },
-    "mediaReference": {
-      "type": "object",
-      "description": "Pointer to an associated asset.",
-      "additionalProperties": false,
-      "required": ["type", "uri"],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["image", "illustration", "audio", "video", "model", "animation", "other"]
-        },
-        "uri": {
-          "type": "string",
-          "description": "Relative or absolute URI to the asset.",
-          "minLength": 1,
-          "maxLength": 2048
-        },
-        "label": {
-          "type": "string",
-          "maxLength": 128
-        },
-        "alt": {
-          "type": "string",
-          "description": "Accessible alternative text.",
-          "maxLength": 500
-        }
-      }
-    },
     "references": {
       "type": "object",
       "description": "Cross-references to related repository content.",
@@ -1043,7 +986,7 @@
           "type": "array",
           "description": "Episode identifiers featuring this character.",
           "items": {
-            "$ref": "#/$defs/slug"
+            "$ref": "./shared/base.schema.json#/$defs/slug"
           },
           "uniqueItems": true,
           "maxItems": 500
@@ -1052,7 +995,7 @@
           "type": "array",
           "description": "Location identifiers associated with this character.",
           "items": {
-            "$ref": "#/$defs/slug"
+            "$ref": "./shared/base.schema.json#/$defs/slug"
           },
           "uniqueItems": true,
           "maxItems": 100
@@ -1061,49 +1004,11 @@
           "type": "array",
           "description": "Object identifiers associated with this character.",
           "items": {
-            "$ref": "#/$defs/slug"
+            "$ref": "./shared/base.schema.json#/$defs/slug"
           },
           "uniqueItems": true,
           "maxItems": 100
         }
-      }
-    },
-    "metadata": {
-      "type": "object",
-      "description": "Audit and editorial tracking fields.",
-      "additionalProperties": false,
-      "properties": {
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "revision": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "Monotonic revision counter for this record."
-        },
-        "author": {
-          "type": "string",
-          "description": "Creator or last editor identifier.",
-          "maxLength": 128
-        },
-        "notes": {
-          "type": "string",
-          "description": "Internal editorial notes not intended for publication.",
-          "maxLength": 2000
-        }
-      }
-    },
-    "extensions": {
-      "type": "object",
-      "description": "Forward-compatible extension namespace. Keys must use reverse-domain notation. Values may be any JSON type.",
-      "additionalProperties": true,
-      "propertyNames": {
-        "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
       }
     }
   },
@@ -1115,37 +1020,72 @@
       "canonicalName": "Example Human",
       "displayName": "Example",
       "nickname": "Ex",
-      "aliases": ["Little Example"],
+      "aliases": [
+        "Little Example"
+      ],
       "kind": "human",
       "status": "canonical",
       "summary": "A curious child who leads stories through questions and kindness.",
       "catchphrase": "Every question is a door.",
       "storyRoles": [
-        { "role": "main", "primary": true },
-        { "role": "supporting", "label": "Team Catalyst" }
+        {
+          "role": "main",
+          "primary": true
+        },
+        {
+          "role": "supporting",
+          "label": "Team Catalyst"
+        }
       ],
       "storyFunctions": [
-        { "function": "explorer", "weight": 0.9 },
-        { "function": "problem-solver", "weight": 0.7 }
+        {
+          "function": "explorer",
+          "weight": 0.9
+        },
+        {
+          "function": "problem-solver",
+          "weight": 0.7
+        }
       ],
       "personality": {
         "traits": [
-          { "label": "curious", "description": "Asks questions before acting." },
-          { "label": "kind", "description": "Chooses care when others need help." }
+          {
+            "label": "curious",
+            "description": "Asks questions before acting."
+          },
+          {
+            "label": "kind",
+            "description": "Chooses care when others need help."
+          }
         ],
-        "mannerisms": ["tilts head when thinking"]
+        "mannerisms": [
+          "tilts head when thinking"
+        ]
       },
       "moralValues": [
-        { "label": "kindness" },
-        { "label": "curiosity" },
-        { "label": "empathy" }
+        {
+          "label": "kindness"
+        },
+        {
+          "label": "curiosity"
+        },
+        {
+          "label": "empathy"
+        }
       ],
       "strengths": [
-        { "label": "empathy" },
-        { "label": "problem-solving" }
+        {
+          "label": "empathy"
+        },
+        {
+          "label": "problem-solving"
+        }
       ],
       "weaknesses": [
-        { "label": "impatience", "description": "Sometimes rushes ahead before listening." }
+        {
+          "label": "impatience",
+          "description": "Sometimes rushes ahead before listening."
+        }
       ],
       "birthday": {
         "known": true,
@@ -1161,13 +1101,25 @@
         "season": "spring"
       },
       "signatureItems": [
-        { "label": "Explorer Backpack", "description": "Carries maps and collected treasures.", "alwaysPresent": true },
-        { "label": "Compass", "objectId": "example-compass" }
+        {
+          "label": "Explorer Backpack",
+          "description": "Carries maps and collected treasures.",
+          "alwaysPresent": true
+        },
+        {
+          "label": "Compass",
+          "objectId": "example-compass"
+        }
       ],
       "appearance": {
         "summary": "Medium height, bright clothing, expressive face.",
-        "colors": ["blue", "yellow"],
-        "distinguishingFeatures": ["freckles"],
+        "colors": [
+          "blue",
+          "yellow"
+        ],
+        "distinguishingFeatures": [
+          "freckles"
+        ],
         "size": "small"
       },
       "voiceProfile": {
@@ -1181,9 +1133,18 @@
       "animationProfile": {
         "defaultState": "idle",
         "clips": {
-          "idle": { "reference": "animations/example-human/idle", "loop": true },
-          "walk": { "reference": "animations/example-human/walk", "loop": true },
-          "celebrate": { "reference": "animations/example-human/celebrate", "description": "Small jump with arms raised." }
+          "idle": {
+            "reference": "animations/example-human/idle",
+            "loop": true
+          },
+          "walk": {
+            "reference": "animations/example-human/walk",
+            "loop": true
+          },
+          "celebrate": {
+            "reference": "animations/example-human/celebrate",
+            "description": "Small jump with arms raised."
+          }
         }
       },
       "imageProfile": {
@@ -1206,7 +1167,9 @@
       },
       "kindProfile": {
         "ageRange": "child",
-        "roles": ["sibling"]
+        "roles": [
+          "sibling"
+        ]
       },
       "relationships": [
         {
@@ -1215,7 +1178,10 @@
           "description": "Trusted friend on adventures."
         }
       ],
-      "tags": ["protagonist", "child"],
+      "tags": [
+        "protagonist",
+        "child"
+      ],
       "metadata": {
         "revision": 2
       }
@@ -1229,26 +1195,40 @@
       "summary": "A loyal animal companion who communicates with the cast.",
       "personality": {
         "traits": [
-          { "label": "loyal" },
-          { "label": "playful" }
+          {
+            "label": "loyal"
+          },
+          {
+            "label": "playful"
+          }
         ],
         "voice": "Short, eager phrases with a cheerful tone."
       },
       "strengths": [
-        { "label": "keen senses" }
+        {
+          "label": "keen senses"
+        }
       ],
       "weaknesses": [
-        { "label": "easily distracted" }
+        {
+          "label": "easily distracted"
+        }
       ],
       "appearance": {
         "summary": "Compact build with soft fur and bright eyes.",
-        "colors": ["brown", "white"],
+        "colors": [
+          "brown",
+          "white"
+        ],
         "size": "small"
       },
       "kindProfile": {
         "species": "dog",
         "communication": "speech",
-        "temperament": ["friendly", "energetic"]
+        "temperament": [
+          "friendly",
+          "energetic"
+        ]
       },
       "capabilities": [
         {
@@ -1257,7 +1237,10 @@
           "description": "Can follow scents over short distances."
         }
       ],
-      "tags": ["companion", "animal"]
+      "tags": [
+        "companion",
+        "animal"
+      ]
     },
     {
       "schemaVersion": "1.1.0",
@@ -1269,33 +1252,57 @@
       "summary": "A dependable vehicle that helps the cast travel between places.",
       "catchphrase": "Strong wheels. Kind heart.",
       "storyRoles": [
-        { "role": "supporting", "primary": true }
+        {
+          "role": "supporting",
+          "primary": true
+        }
       ],
       "storyFunctions": [
-        { "function": "helper", "weight": 1.0 }
+        {
+          "function": "helper",
+          "weight": 1
+        }
       ],
       "personality": {
         "traits": [
-          { "label": "steady" },
-          { "label": "cheerful" }
+          {
+            "label": "steady"
+          },
+          {
+            "label": "cheerful"
+          }
         ]
       },
       "moralValues": [
-        { "label": "teamwork" },
-        { "label": "kindness" }
+        {
+          "label": "teamwork"
+        },
+        {
+          "label": "kindness"
+        }
       ],
       "strengths": [
-        { "label": "reliability" }
+        {
+          "label": "reliability"
+        }
       ],
       "weaknesses": [
-        { "label": "slow on steep paths" }
+        {
+          "label": "slow on steep paths"
+        }
       ],
       "signatureItems": [
-        { "label": "Toolbox", "description": "Used to help friends with small repairs." }
+        {
+          "label": "Toolbox",
+          "description": "Used to help friends with small repairs."
+        }
       ],
       "appearance": {
         "summary": "Rounded body with a painted canopy and wooden wheels.",
-        "colors": ["red", "cream"],
+        "colors": [
+          "red",
+          "cream"
+        ],
         "size": "medium"
       },
       "voiceProfile": {
@@ -1308,8 +1315,14 @@
       },
       "animationProfile": {
         "clips": {
-          "idle": { "reference": "animations/example-vehicle/idle", "loop": true },
-          "thinking": { "reference": "animations/example-vehicle/thinking", "description": "Subtle bounce with light blink." }
+          "idle": {
+            "reference": "animations/example-vehicle/idle",
+            "loop": true
+          },
+          "thinking": {
+            "reference": "animations/example-vehicle/thinking",
+            "description": "Subtle bounce with light blink."
+          }
         }
       },
       "imageProfile": {
@@ -1332,7 +1345,10 @@
           "category": "transport"
         }
       ],
-      "tags": ["vehicle", "transport"]
+      "tags": [
+        "vehicle",
+        "transport"
+      ]
     }
   ]
 }

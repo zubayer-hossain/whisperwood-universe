@@ -1,0 +1,933 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/object.schema.json",
+  "$title": "Object",
+  "description": "Canonical structure for an object record in a storytelling universe. Defines identity, classification, ownership, story metadata, physical appearance, interaction affordances, capabilities, and production profiles for Story Studio, AI story and image generation, websites, games, books, mobile apps, and future APIs. Supports personal belongings, props, tools, food, furniture, magical items, and custom object kinds through an extensible classification system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "canonicalName",
+    "kind",
+    "status",
+    "summary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "$ref": "./shared/base.schema.json#/$defs/schemaVersion",
+      "description": "Semantic version of this document format."
+    },
+    "id": {
+      "$ref": "./shared/base.schema.json#/$defs/slug",
+      "description": "Stable, immutable identifier for the object. Never change once assigned. Used in filenames, URLs, APIs, and cross-references."
+    },
+    "canonicalName": {
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
+      "description": "Official canonical name used in documentation, credits, and authoritative references.",
+      "maxLength": 128
+    },
+    "displayName": {
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
+      "description": "Current presentation name shown in apps, websites, and Story Studio. When absent, consumers should fall back to canonicalName.",
+      "maxLength": 128
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Alternative names, nicknames, or in-world labels for the object.",
+      "items": {
+        "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true,
+      "maxItems": 20
+    },
+    "kind": {
+      "$ref": "#/$defs/objectKind",
+      "description": "Primary object type identifier. Standard kinds are provided; custom kebab-case kinds are supported for future types."
+    },
+    "category": {
+      "$ref": "#/$defs/objectCategory",
+      "description": "Optional high-level grouping for filtering and discovery across custom kinds."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form kebab-case labels for search, grouping, and Story Studio filters.",
+      "items": {
+        "$ref": "./shared/base.schema.json#/$defs/tag"
+      },
+      "uniqueItems": true,
+      "maxItems": 50
+    },
+    "status": {
+      "$ref": "./shared/base.schema.json#/$defs/recordStatus",
+      "description": "Editorial lifecycle state of this record."
+    },
+    "summary": {
+      "$ref": "./shared/base.schema.json#/$defs/nonEmptyString",
+      "description": "Brief overview suitable for lists, inventory screens, search results, and API summaries.",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "description": {
+      "type": "string",
+      "description": "Extended narrative description for long-form profiles, books, and AI story generation context.",
+      "maxLength": 10000
+    },
+    "ownership": {
+      "$ref": "#/$defs/ownership",
+      "description": "Optional references to characters and locations associated with possession or storage of the object."
+    },
+    "storyMetadata": {
+      "$ref": "#/$defs/storyMetadata",
+      "description": "Narrative significance, roles, and story-history metadata for Story Studio and AI story generation."
+    },
+    "appearance": {
+      "$ref": "#/$defs/appearance",
+      "description": "Physical visual and material qualities shared across illustration, animation, and image generation."
+    },
+    "interaction": {
+      "$ref": "#/$defs/interaction",
+      "description": "How characters physically relate to the object in stories. Describes affordances, not game mechanics."
+    },
+    "capabilities": {
+      "$ref": "#/$defs/capabilities",
+      "description": "What the object can contribute to stories through use, symbolism, or gentle magical qualities."
+    },
+    "magicalProfile": {
+      "$ref": "#/$defs/magicalProfile",
+      "description": "Optional gentle fantasy metadata for enchanted objects. Narrative description only — not game stats or mechanics."
+    },
+    "imageProfile": {
+      "$ref": "./shared/ai.schema.json#/$defs/imageProfile",
+      "description": "Model-agnostic visual generation settings for AI image tools, books, and marketing assets."
+    },
+    "promptProfile": {
+      "$ref": "./shared/ai.schema.json#/$defs/promptProfile",
+      "description": "Reusable prompt templates for AI systems. Complements imageProfile."
+    },
+    "relationships": {
+      "$ref": "#/$defs/relationships",
+      "description": "Cross-references to characters, locations, episodes, stories, and related objects."
+    },
+    "media": {
+      "$ref": "#/$defs/media",
+      "description": "Visual reference assets associated with this object."
+    },
+    "metadata": {
+      "$ref": "./shared/metadata.schema.json#/$defs/metadata",
+      "description": "Provenance, audit, and editorial metadata."
+    },
+    "extensions": {
+      "$ref": "./shared/metadata.schema.json#/$defs/extensions",
+      "description": "Namespaced extension data for future consumers. Keys should use reverse-domain notation."
+    }
+  },
+  "$defs": {
+    "objectKind": {
+      "description": "Standard object kind or custom kebab-case extension. The standard list is non-exhaustive.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "belonging",
+            "prop",
+            "toy",
+            "tool",
+            "book",
+            "food",
+            "clothing",
+            "furniture",
+            "container",
+            "key",
+            "map",
+            "musical-instrument",
+            "art-supply",
+            "natural-object",
+            "collectible",
+            "gift",
+            "magical-item"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "belonging",
+              "prop",
+              "toy",
+              "tool",
+              "book",
+              "food",
+              "clothing",
+              "furniture",
+              "container",
+              "key",
+              "map",
+              "musical-instrument",
+              "art-supply",
+              "natural-object",
+              "collectible",
+              "gift",
+              "magical-item"
+            ]
+          }
+        }
+      ]
+    },
+    "objectCategory": {
+      "description": "Standard object category or custom kebab-case extension for cross-kind filtering.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "personal",
+            "narrative",
+            "household",
+            "utility",
+            "nourishment",
+            "apparel",
+            "furnishing",
+            "storage",
+            "access",
+            "navigation",
+            "recreation",
+            "creative",
+            "nature",
+            "treasure",
+            "ceremonial",
+            "magical",
+            "mixed",
+            "unspecified"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "personal",
+              "narrative",
+              "household",
+              "utility",
+              "nourishment",
+              "apparel",
+              "furnishing",
+              "storage",
+              "access",
+              "navigation",
+              "recreation",
+              "creative",
+              "nature",
+              "treasure",
+              "ceremonial",
+              "magical",
+              "mixed",
+              "unspecified"
+            ]
+          }
+        }
+      ]
+    },
+    "ownership": {
+      "type": "object",
+      "description": "Optional possession and storage references. Absence implies shared, unknown, or unowned status.",
+      "additionalProperties": false,
+      "properties": {
+        "ownerCharacterIds": {
+          "type": "array",
+          "description": "Character identifiers who own, carry, or are primarily associated with this object.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 20
+        },
+        "homeLocationId": {
+          "$ref": "./shared/base.schema.json#/$defs/slug",
+          "description": "Location identifier where the object is usually kept when not in use."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional ownership context (e.g. shared family item, library property).",
+          "maxLength": 1000
+        }
+      }
+    },
+    "storyRoleEntry": {
+      "type": "object",
+      "description": "A narrative role this object plays across stories.",
+      "additionalProperties": false,
+      "required": [
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "$ref": "#/$defs/objectStoryRoleValue"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable role for UI display.",
+          "maxLength": 128
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is the object's primary narrative role.",
+          "default": false
+        }
+      }
+    },
+    "objectStoryRoleValue": {
+      "description": "Standard object narrative role or custom kebab-case extension.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "signature-item",
+            "plot-device",
+            "symbol",
+            "clue",
+            "comfort-object",
+            "tool",
+            "gift",
+            "decoration",
+            "resource",
+            "background"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "signature-item",
+              "plot-device",
+              "symbol",
+              "clue",
+              "comfort-object",
+              "tool",
+              "gift",
+              "decoration",
+              "resource",
+              "background"
+            ]
+          }
+        }
+      ]
+    },
+    "storyFunctionEntry": {
+      "type": "object",
+      "description": "A functional story purpose used by Story Studio to match objects to story templates.",
+      "additionalProperties": false,
+      "required": [
+        "function"
+      ],
+      "properties": {
+        "function": {
+          "$ref": "#/$defs/objectStoryFunctionValue"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "weight": {
+          "type": "number",
+          "description": "Optional relevance weight (0–1) for Story Studio matching.",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "objectStoryFunctionValue": {
+      "description": "Standard object story function or custom kebab-case extension.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "problem-solving",
+            "character-identity",
+            "story-trigger",
+            "emotional-anchor",
+            "exploration-aid",
+            "teaching-aid",
+            "connection",
+            "celebration",
+            "navigation",
+            "comfort"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+          "not": {
+            "enum": [
+              "problem-solving",
+              "character-identity",
+              "story-trigger",
+              "emotional-anchor",
+              "exploration-aid",
+              "teaching-aid",
+              "connection",
+              "celebration",
+              "navigation",
+              "comfort"
+            ]
+          }
+        }
+      ]
+    },
+    "firstAppearance": {
+      "type": "object",
+      "description": "Reference to where the object first appears in the story canon.",
+      "additionalProperties": false,
+      "properties": {
+        "episodeId": {
+          "$ref": "./shared/base.schema.json#/$defs/slug",
+          "description": "Episode identifier of first canonical appearance."
+        },
+        "storyId": {
+          "$ref": "./shared/base.schema.json#/$defs/slug",
+          "description": "Story or arc identifier of first canonical appearance."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional narrative note about the first appearance.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "storyMetadata": {
+      "type": "object",
+      "description": "Narrative significance and story-history metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "storyRoles": {
+          "type": "array",
+          "description": "Narrative roles this object fulfills across stories.",
+          "items": {
+            "$ref": "#/$defs/storyRoleEntry"
+          },
+          "maxItems": 10,
+          "uniqueItems": true
+        },
+        "storyFunctions": {
+          "type": "array",
+          "description": "Functional purposes used by Story Studio for object-to-story matching.",
+          "items": {
+            "$ref": "#/$defs/storyFunctionEntry"
+          },
+          "maxItems": 10,
+          "uniqueItems": true
+        },
+        "importance": {
+          "type": "string",
+          "description": "Narrative weight of the object within the universe.",
+          "enum": [
+            "minor",
+            "supporting",
+            "significant",
+            "iconic",
+            "unspecified"
+          ]
+        },
+        "firstAppearance": {
+          "$ref": "#/$defs/firstAppearance",
+          "description": "Canonical first appearance reference."
+        },
+        "recurring": {
+          "type": "boolean",
+          "description": "Whether the object appears across multiple stories or episodes.",
+          "default": false
+        }
+      }
+    },
+    "appearance": {
+      "type": "object",
+      "description": "Physical visual and material qualities for consistent portrayal.",
+      "additionalProperties": false,
+      "properties": {
+        "colors": {
+          "type": "array",
+          "description": "Dominant or signature colors.",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 12
+        },
+        "materials": {
+          "type": "array",
+          "description": "Primary materials (e.g. wood, brass, cotton, glass).",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
+          },
+          "maxItems": 15
+        },
+        "size": {
+          "type": "string",
+          "description": "Relative size class of the object.",
+          "enum": [
+            "tiny",
+            "small",
+            "medium",
+            "large",
+            "oversized",
+            "unspecified"
+          ]
+        },
+        "shape": {
+          "type": "string",
+          "description": "Overall form or silhouette (e.g. round, rectangular, curved handle).",
+          "maxLength": 256
+        },
+        "condition": {
+          "type": "string",
+          "description": "Typical physical condition shown in canon.",
+          "enum": [
+            "pristine",
+            "well-used",
+            "worn",
+            "patched",
+            "weathered",
+            "unspecified"
+          ]
+        },
+        "distinguishingFeatures": {
+          "type": "array",
+          "description": "Notable visual markers that aid recognition across media.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
+          },
+          "maxItems": 15
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional visual direction for illustrators and image generation systems.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "description": "Physical affordances describing how characters interact with the object in stories. Not game mechanics.",
+      "additionalProperties": false,
+      "properties": {
+        "portable": {
+          "type": "boolean",
+          "description": "Whether the object can be easily carried by a character."
+        },
+        "wearable": {
+          "type": "boolean",
+          "description": "Whether the object is worn on the body (clothing, accessories)."
+        },
+        "consumable": {
+          "type": "boolean",
+          "description": "Whether the object is used up when consumed (food, single-use items)."
+        },
+        "usable": {
+          "type": "boolean",
+          "description": "Whether the object is actively used to accomplish something in stories."
+        },
+        "reusable": {
+          "type": "boolean",
+          "description": "Whether the object can be used repeatedly without being consumed."
+        },
+        "fragile": {
+          "type": "boolean",
+          "description": "Whether the object is easily broken or damaged in narrative contexts."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional interaction context for writers and Story Studio.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "description": "Story contributions the object makes through use, symbolism, or gentle enchantment. Not game stats.",
+      "additionalProperties": false,
+      "properties": {
+        "abilities": {
+          "type": "array",
+          "description": "What the object helps characters do or achieve in stories.",
+          "items": {
+            "$ref": "./shared/reference.schema.json#/$defs/labeledItem"
+          },
+          "maxItems": 20
+        },
+        "limitations": {
+          "type": "array",
+          "description": "Constraints on how or when the object can be used narratively.",
+          "items": {
+            "$ref": "./shared/reference.schema.json#/$defs/labeledItem"
+          },
+          "maxItems": 15
+        },
+        "usageNotes": {
+          "type": "string",
+          "description": "General guidance for how the object appears and functions across stories.",
+          "maxLength": 3000
+        }
+      }
+    },
+    "magicalProfile": {
+      "type": "object",
+      "description": "Optional gentle fantasy metadata for enchanted objects. Describes narrative magic only — warm, wonder-filled, and appropriate for children's storytelling.",
+      "additionalProperties": false,
+      "properties": {
+        "isMagical": {
+          "type": "boolean",
+          "description": "Whether the object possesses magical qualities in canon.",
+          "default": false
+        },
+        "magicalNature": {
+          "type": "array",
+          "description": "Qualities of the object's magic (e.g. glows softly, offers guidance, reveals hidden things).",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/nonEmptyString"
+          },
+          "maxItems": 10
+        },
+        "narrativeRules": {
+          "type": "array",
+          "description": "Story-world rules governing how the magic behaves. Not mechanical rules.",
+          "items": {
+            "$ref": "./shared/reference.schema.json#/$defs/labeledItem"
+          },
+          "maxItems": 10
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional direction ensuring magic remains gentle and story-serving.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "description": "Cross-references to related entities in the universe.",
+      "additionalProperties": false,
+      "properties": {
+        "characters": {
+          "type": "array",
+          "description": "Character identifiers narratively linked to this object beyond ownership.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "locations": {
+          "type": "array",
+          "description": "Location identifiers where this object appears or is stored.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "episodes": {
+          "type": "array",
+          "description": "Episode identifiers featuring this object.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 500
+        },
+        "stories": {
+          "type": "array",
+          "description": "Story or arc identifiers featuring this object.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 500
+        },
+        "relatedObjects": {
+          "type": "array",
+          "description": "Other object identifiers that are sets, components, or companions of this object.",
+          "items": {
+            "$ref": "./shared/base.schema.json#/$defs/slug"
+          },
+          "uniqueItems": true,
+          "maxItems": 50
+        },
+        "markdown": {
+          "type": "string",
+          "description": "Relative path to the narrative Markdown profile.",
+          "maxLength": 512
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "description": "Grouped visual reference assets for illustration and production pipelines.",
+      "additionalProperties": false,
+      "properties": {
+        "illustrations": {
+          "type": "array",
+          "description": "Finished or canonical illustrations of the object.",
+          "items": {
+            "$ref": "./shared/media.schema.json#/$defs/mediaAsset"
+          },
+          "maxItems": 50
+        },
+        "conceptArt": {
+          "type": "array",
+          "description": "Concept art and exploratory visual references.",
+          "items": {
+            "$ref": "./shared/media.schema.json#/$defs/mediaAsset"
+          },
+          "maxItems": 50
+        },
+        "references": {
+          "type": "array",
+          "description": "Real-world or mood reference images used during design.",
+          "items": {
+            "$ref": "./shared/media.schema.json#/$defs/mediaAsset"
+          },
+          "maxItems": 30
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schemaVersion": "1.0.0",
+      "id": "example-compass",
+      "canonicalName": "Example Compass",
+      "displayName": "Example Compass",
+      "aliases": [
+        "Brass Compass"
+      ],
+      "kind": "tool",
+      "category": "navigation",
+      "tags": [
+        "exploration",
+        "portable",
+        "signature-item"
+      ],
+      "status": "canonical",
+      "summary": "A small brass compass used to find direction on outdoor adventures.",
+      "description": "A well-loved compass with a scratched lid and a steady needle. It belongs in the pocket of any young explorer setting out on a gentle adventure.",
+      "ownership": {
+        "ownerCharacterIds": [
+          "example-character"
+        ],
+        "notes": "Typically carried rather than stored."
+      },
+      "storyMetadata": {
+        "storyRoles": [
+          {
+            "role": "signature-item",
+            "primary": true
+          },
+          {
+            "role": "tool"
+          }
+        ],
+        "storyFunctions": [
+          {
+            "function": "exploration-aid",
+            "weight": 1
+          },
+          {
+            "function": "character-identity",
+            "weight": 0.8
+          }
+        ],
+        "importance": "significant",
+        "recurring": true
+      },
+      "appearance": {
+        "colors": [
+          "brass",
+          "gold"
+        ],
+        "materials": [
+          "brass",
+          "glass"
+        ],
+        "size": "small",
+        "shape": "round pocket compass with hinged lid",
+        "condition": "well-used",
+        "distinguishingFeatures": [
+          "small dent on the lid",
+          "red needle tip"
+        ]
+      },
+      "interaction": {
+        "portable": true,
+        "wearable": false,
+        "consumable": false,
+        "usable": true,
+        "reusable": true,
+        "fragile": false
+      },
+      "capabilities": {
+        "abilities": [
+          {
+            "label": "wayfinding",
+            "description": "Helps characters choose a direction when paths are unclear."
+          }
+        ],
+        "limitations": [
+          {
+            "label": "needs open sky",
+            "description": "Works best outdoors away from heavy cover."
+          }
+        ],
+        "usageNotes": "The compass guides curiosity; it does not solve problems on its own."
+      },
+      "imageProfile": {
+        "defaultPrompt": "small brass pocket compass, storybook illustration, warm light, gentle wear",
+        "negativePrompt": "dark, scary, realistic horror, broken glass",
+        "artStyle": "soft watercolor illustration",
+        "lighting": "warm daylight",
+        "renderingStyle": "hand-drawn"
+      },
+      "promptProfile": {
+        "story": {
+          "prompt": "Feature {{displayName}} as a gentle exploration aid in an outdoor adventure.",
+          "mergeStrategy": "standalone"
+        }
+      },
+      "relationships": {
+        "characters": [
+          "example-character"
+        ],
+        "locations": [
+          "example-village"
+        ]
+      },
+      "metadata": {
+        "revision": 1
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "id": "example-lantern",
+      "canonicalName": "Example Lantern",
+      "displayName": "Example Lantern",
+      "kind": "magical-item",
+      "category": "magical",
+      "tags": [
+        "light",
+        "magical",
+        "comfort"
+      ],
+      "status": "canonical",
+      "summary": "A gentle lantern that glows with a warm, reassuring light.",
+      "description": "A small lantern with soft golden light that brightens when friends are near and dims to a cozy ember during quiet moments.",
+      "storyMetadata": {
+        "storyRoles": [
+          {
+            "role": "comfort-object",
+            "primary": true
+          },
+          {
+            "role": "symbol"
+          }
+        ],
+        "storyFunctions": [
+          {
+            "function": "emotional-anchor",
+            "weight": 0.9
+          },
+          {
+            "function": "comfort",
+            "weight": 1
+          }
+        ],
+        "importance": "iconic",
+        "recurring": true
+      },
+      "appearance": {
+        "colors": [
+          "gold",
+          "cream"
+        ],
+        "materials": [
+          "metal",
+          "glass"
+        ],
+        "size": "small",
+        "shape": "rounded lantern with curved handle",
+        "condition": "pristine",
+        "distinguishingFeatures": [
+          "soft inner glow",
+          "tiny star-shaped vents"
+        ]
+      },
+      "interaction": {
+        "portable": true,
+        "usable": true,
+        "reusable": true,
+        "fragile": true
+      },
+      "capabilities": {
+        "abilities": [
+          {
+            "label": "gentle illumination",
+            "description": "Provides warm light in dark places without frightening shadows."
+          },
+          {
+            "label": "emotional warmth",
+            "description": "Its glow comforts characters who feel uncertain."
+          }
+        ],
+        "limitations": [
+          {
+            "label": "cannot force outcomes",
+            "description": "Light reveals paths but characters must still choose kindness and courage."
+          }
+        ],
+        "usageNotes": "Magic serves the story; the lantern never solves problems alone."
+      },
+      "magicalProfile": {
+        "isMagical": true,
+        "magicalNature": [
+          "glows softly",
+          "brightens near friends",
+          "dims during rest"
+        ],
+        "narrativeRules": [
+          {
+            "label": "gentle magic only",
+            "description": "The lantern never frightens, burns, or behaves unpredictably."
+          }
+        ]
+      },
+      "imageProfile": {
+        "defaultPrompt": "small golden storybook lantern, soft magical glow, warm children's illustration",
+        "negativePrompt": "dark horror, fire hazard, sharp edges, adult themes",
+        "artStyle": "soft watercolor illustration",
+        "lighting": "warm inner glow",
+        "renderingStyle": "painterly"
+      },
+      "promptProfile": {
+        "image": {
+          "prompt": "Illustrate {{displayName}} with a soft golden glow, {{appearance.shape}}",
+          "mergeStrategy": "prepend"
+        },
+        "animation": {
+          "prompt": "Gentle pulsing glow animation for a small storybook lantern.",
+          "mergeStrategy": "standalone"
+        }
+      },
+      "media": {
+        "illustrations": [
+          {
+            "uri": "assets/objects/example-lantern/canonical.png",
+            "alt": "Example Lantern glowing softly with a curved handle"
+          }
+        ]
+      },
+      "metadata": {
+        "revision": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/shared/metadata.schema.json",
+  "$title": "Whisperwood Shared Metadata Definitions",
+  "description": "Reusable audit, provenance, and extension definitions shared across Whisperwood Universe entity schemas.",
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "description": "Audit and editorial tracking fields.",
+      "additionalProperties": false,
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Monotonic revision counter for this record."
+        },
+        "author": {
+          "type": "string",
+          "description": "Creator or last editor identifier.",
+          "maxLength": 128
+        },
+        "notes": {
+          "type": "string",
+          "description": "Internal editorial notes not intended for publication.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Forward-compatible extension namespace. Keys must use reverse-domain notation. Values may be any JSON type.",
+      "additionalProperties": true,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
+      }
+    }
+  }
+}

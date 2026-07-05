@@ -115,6 +115,21 @@ Each new schema should:
 2. Include examples.
 3. Remain backward compatible whenever possible.
 4. Be versioned if breaking changes are introduced.
+5. Reuse shared definitions from [shared/](shared/) wherever applicable.
+
+### Shared Modules
+
+Common definitions live in [schemas/shared/](shared/) and are referenced with `$ref`:
+
+| Module | Contents |
+|--------|----------|
+| `base.schema.json` | `schemaVersion`, `slug`, `nonEmptyString`, `tag`, `recordStatus`, `extensibleLabel` |
+| `metadata.schema.json` | `metadata`, `extensions` |
+| `ai.schema.json` | `imageProfile`, `promptTemplate`, `promptProfile` |
+| `media.schema.json` | `mediaAsset`, `mediaReference` |
+| `reference.schema.json` | `labeledItem`, `markdownPath`, `slugList` |
+
+Entity schemas (`character`, `location`, `object`) reference these modules. Do not duplicate shared definitions in entity schema files.
 
 The recommended implementation order is:
 

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/shared/reference.schema.json",
+  "$title": "Whisperwood Shared Reference Definitions",
+  "description": "Reusable labeled items and reference helpers shared across Whisperwood Universe entity schemas.",
+  "$defs": {
+    "labeledItem": {
+      "type": "object",
+      "description": "A named item with optional descriptive context.",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "$ref": "base.schema.json#/$defs/nonEmptyString",
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional explanation or narrative context.",
+          "maxLength": 1000
+        }
+      }
+    },
+    "markdownPath": {
+      "type": "string",
+      "description": "Relative path to a narrative Markdown profile.",
+      "maxLength": 512
+    },
+    "slugList": {
+      "type": "array",
+      "description": "A list of entity identifiers.",
+      "items": {
+        "$ref": "base.schema.json#/$defs/slug"
+      },
+      "uniqueItems": true
+    }
+  }
+}

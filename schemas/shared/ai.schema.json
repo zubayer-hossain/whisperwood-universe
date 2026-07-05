@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/shared/ai.schema.json",
+  "$title": "Whisperwood Shared AI Production Definitions",
+  "description": "Reusable image and prompt profile definitions shared across Whisperwood Universe entity schemas.",
+  "$defs": {
+    "imageProfile": {
+      "type": "object",
+      "description": "Model-agnostic visual generation settings. Avoid engine-specific parameters.",
+      "additionalProperties": false,
+      "properties": {
+        "defaultPrompt": {
+          "type": "string",
+          "description": "Base positive prompt describing the canonical visual appearance.",
+          "maxLength": 4000
+        },
+        "negativePrompt": {
+          "type": "string",
+          "description": "Base negative prompt excluding undesired visual elements.",
+          "maxLength": 4000
+        },
+        "artStyle": {
+          "type": "string",
+          "description": "Intended artistic style (e.g. watercolor, flat illustration, soft 3D).",
+          "maxLength": 256
+        },
+        "lighting": {
+          "type": "string",
+          "description": "Preferred lighting mood (e.g. soft daylight, golden hour, gentle indoor).",
+          "maxLength": 256
+        },
+        "renderingStyle": {
+          "type": "string",
+          "description": "Rendering approach (e.g. hand-drawn, cel-shaded, painterly).",
+          "maxLength": 256
+        },
+        "cameraStyle": {
+          "type": "string",
+          "description": "Typical framing or camera treatment (e.g. eye-level, warm portrait, wide establishing).",
+          "maxLength": 256
+        },
+        "timeOfDay": {
+          "type": "string",
+          "description": "Default time of day for generated imagery.",
+          "enum": ["dawn", "morning", "midday", "afternoon", "dusk", "evening", "night", "unspecified"]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional visual direction for illustrators and image generation systems.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "promptTemplate": {
+      "type": "object",
+      "description": "Reusable, model-agnostic prompt template for a specific AI generation purpose.",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "Primary prompt text. May include placeholders documented in notes.",
+          "maxLength": 8000
+        },
+        "negativePrompt": {
+          "type": "string",
+          "description": "Optional negative prompt for generation tasks that support it.",
+          "maxLength": 4000
+        },
+        "mergeStrategy": {
+          "type": "string",
+          "description": "How consumers should combine this template with dedicated profiles.",
+          "enum": ["standalone", "append", "prepend", "override", "unspecified"],
+          "default": "unspecified"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Placeholder definitions, usage context, and merge instructions.",
+          "maxLength": 2000
+        }
+      }
+    },
+    "promptProfile": {
+      "type": "object",
+      "description": "Centralized prompt templates for AI systems. Complements dedicated profiles; consumers should merge per mergeStrategy to avoid duplication.",
+      "additionalProperties": {
+        "$ref": "#/$defs/promptTemplate"
+      },
+      "properties": {
+        "image": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for image generation."
+        },
+        "animation": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for animation generation or motion direction."
+        },
+        "voice": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for voice synthesis direction."
+        },
+        "thumbnail": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template optimized for small-format preview images."
+        },
+        "story": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for AI story generation."
+        },
+        "map": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for map tile or cartographic illustration generation."
+        },
+        "ambient": {
+          "$ref": "#/$defs/promptTemplate",
+          "description": "Prompt template for ambient audio or soundscape direction."
+        }
+      }
+    }
+  }
+}

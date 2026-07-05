@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisperwood.universe/schemas/shared/media.schema.json",
+  "$title": "Whisperwood Shared Media Definitions",
+  "description": "Reusable media asset reference definitions shared across Whisperwood Universe entity schemas.",
+  "$defs": {
+    "mediaAsset": {
+      "type": "object",
+      "description": "A media asset reference with accessibility metadata.",
+      "additionalProperties": false,
+      "required": ["uri"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "Relative or absolute URI to the asset.",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "alt": {
+          "type": "string",
+          "description": "Accessible alternative text.",
+          "maxLength": 500
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    },
+    "mediaReference": {
+      "type": "object",
+      "description": "Pointer to an associated asset with typed classification.",
+      "additionalProperties": false,
+      "required": ["type", "uri"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "image",
+            "illustration",
+            "map",
+            "audio",
+            "video",
+            "model",
+            "animation",
+            "tileset",
+            "other"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "description": "Relative or absolute URI to the asset.",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "alt": {
+          "type": "string",
+          "description": "Accessible alternative text.",
+          "maxLength": 500
+        }
+      }
+    }
+  }
+}
