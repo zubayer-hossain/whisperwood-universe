@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "zulk",
+  "name": "Zulk",
+  "canonicalName": "Zulk",
+  "displayName": "Zulk",
+  "kind": "human",
+  "status": "canonical",
+  "summary": "A curious young explorer who leads with kindness, asks big questions, and learns from every adventure in Whisperwood.",
+  "description": "Zulk is one of the two flagship protagonists of the Whisperwood Universe. A brave and warm-hearted boy with a natural love of discovery, he explores the world with an explorer's backpack and an open mind. He acts quickly when others need help, sometimes before he has thought things through — but he always grows from his mistakes. Zulk embodies curiosity, courage, and kindness for audiences aged 4–8.",
+  "storyRoles": [
+    {
+      "role": "main",
+      "primary": true,
+      "label": "Main Character"
+    }
+  ],
+  "storyFunctions": [
+    {
+      "function": "explorer",
+      "weight": 1.0,
+      "label": "Explorer"
+    },
+    {
+      "function": "leader",
+      "weight": 0.95,
+      "label": "Leader"
+    },
+    {
+      "function": "problem-solver",
+      "weight": 0.95,
+      "label": "Problem Solver"
+    },
+    {
+      "function": "learner",
+      "weight": 0.75,
+      "label": "Learner"
+    },
+    {
+      "function": "encourager",
+      "weight": 0.75,
+      "label": "Encourager"
+    }
+  ],
+  "personality": {
+    "traits": [
+      {
+        "label": "curious",
+        "description": "Asks questions and notices details others might miss."
+      },
+      {
+        "label": "brave",
+        "description": "Faces new situations with courage, but never recklessly."
+      },
+      {
+        "label": "helpful",
+        "description": "Always tries to help others when they need support."
+      },
+      {
+        "label": "enthusiastic",
+        "description": "Brings energy and optimism to every adventure."
+      }
+    ],
+    "mannerisms": [
+      "Leans forward when something catches his interest",
+      "Unzips or pats his explorer backpack when preparing for a journey",
+      "Tilts his head when thinking through a problem"
+    ]
+  },
+  "moralValues": [
+    {
+      "label": "kindness",
+      "description": "Chooses care and compassion, even when solving problems quickly."
+    },
+    {
+      "label": "curiosity",
+      "description": "Believes asking questions is the first step toward discovery."
+    },
+    {
+      "label": "courage",
+      "description": "Steps forward to help, explore, and try again after mistakes."
+    },
+    {
+      "label": "honesty",
+      "description": "Tells the truth and owns up when he acts too quickly."
+    },
+    {
+      "label": "respect",
+      "description": "Treats people, animals, and nature with consideration."
+    }
+  ],
+  "strengths": [
+    {
+      "label": "curiosity",
+      "description": "Drives discovery and keeps adventures moving forward."
+    },
+    {
+      "label": "problem-solving",
+      "description": "Enjoys figuring things out and finding peaceful solutions."
+    },
+    {
+      "label": "leadership",
+      "description": "Inspires others to join in and work together."
+    },
+    {
+      "label": "kindness",
+      "description": "Makes friends easily and puts others at ease."
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "impulsive",
+      "description": "Sometimes acts before thinking things through completely."
+    },
+    {
+      "label": "impatience",
+      "description": "Can rush ahead when excited about a discovery or idea."
+    }
+  ],
+  "birthday": {
+    "known": true,
+    "month": 11,
+    "day": 28,
+    "lifeStage": "child"
+  },
+  "favorites": {
+    "activity": "exploring and discovering new places",
+    "season": "autumn"
+  },
+  "signatureItems": [
+    {
+      "label": "Explorer Backpack",
+      "description": "His trusted companion on every adventure — carries tools, treasures, and supplies for the road.",
+      "alwaysPresent": true
+    }
+  ],
+  "appearance": {
+    "summary": "A cheerful young boy with dark hair, a warm smile, and bright expressive eyes. He carries a well-worn explorer backpack. Clothing is practical and comfortable, suitable for outdoor adventure — kept generic for artistic evolution.",
+    "colors": ["earth tones", "warm accents"],
+    "distinguishingFeatures": [
+      "dark hair",
+      "warm smile",
+      "expressive eyes",
+      "explorer backpack"
+    ],
+    "size": "small",
+    "notes": "Avoid over-specifying clothing. Design should remain flexible across books, animation, and merchandise."
+  },
+  "kindProfile": {
+    "ageRange": "child",
+    "roles": ["protagonist", "explorer"]
+  },
+  "voiceProfile": {
+    "tone": "friendly and warm",
+    "energy": "high",
+    "pitch": "medium-high",
+    "speakingSpeed": "moderate",
+    "emotionalStyle": "energetic and curious",
+    "vocabularyLevel": "simple",
+    "notes": "Voice should feel approachable and sincere — never sarcastic or overly mature."
+  },
+  "animationProfile": {
+    "defaultState": "idle",
+    "clips": {
+      "idle": {
+        "reference": "assets/animation/idle",
+        "loop": true,
+        "description": "Relaxed stance, subtle breathing, backpack visible."
+      },
+      "walk": {
+        "reference": "assets/animation/walk",
+        "loop": true,
+        "description": "Confident, purposeful stride."
+      },
+      "run": {
+        "reference": "assets/animation/run",
+        "loop": true,
+        "description": "Energetic run with enthusiasm, not panic."
+      },
+      "jump": {
+        "reference": "assets/animation/jump",
+        "description": "Playful jump — joy or celebration, never danger."
+      },
+      "wave": {
+        "reference": "assets/animation/wave",
+        "description": "Friendly greeting wave."
+      },
+      "laugh": {
+        "reference": "assets/animation/laugh",
+        "description": "Open, genuine laughter."
+      },
+      "thinking": {
+        "reference": "assets/animation/thinking",
+        "description": "Pause to observe or puzzle something out — head tilt, thoughtful expression."
+      },
+      "observe": {
+        "reference": "assets/animation/observe",
+        "description": "Leans in to look closely at something interesting."
+      },
+      "celebrate": {
+        "reference": "assets/animation/celebrate",
+        "description": "Small jump or arms raised — quiet triumph, not boastful."
+      }
+    },
+    "notes": "Movement is energetic but controlled. Zulk is brave, not reckless."
+  },
+  "imageProfile": {
+    "defaultPrompt": "friendly young boy explorer, dark hair, warm smile, expressive eyes, explorer backpack, children's storybook illustration, gentle adventure, warm atmosphere",
+    "negativePrompt": "scary, dark, realistic horror, adult themes, sharp weapons, overly detailed clothing, brand logos",
+    "artStyle": "soft storybook illustration",
+    "lighting": "warm daylight",
+    "renderingStyle": "hand-drawn or painterly",
+    "cameraStyle": "eye-level, approachable portrait or adventure scene",
+    "notes": "Visual consistency only — no engine-specific settings. Keep clothing generic across media."
+  },
+  "promptProfile": {
+    "story": {
+      "prompt": "Write a gentle Whisperwood adventure featuring {{displayName}}, a curious young explorer who leads with kindness, learns from mistakes, and finds peaceful solutions.",
+      "mergeStrategy": "standalone"
+    },
+    "thumbnail": {
+      "prompt": "Portrait of {{displayName}}, dark hair, warm smile, expressive eyes, explorer backpack, soft storybook style",
+      "mergeStrategy": "prepend"
+    }
+  },
+  "relationships": [
+    {
+      "targetId": "zaya",
+      "type": "companion",
+      "description": "Placeholder — flagship co-protagonist. Full relationship to be defined when canonical record is created.",
+      "bidirectional": true
+    },
+    {
+      "targetId": "finn",
+      "type": "friend",
+      "description": "Placeholder — friend and fellow adventurer. Full relationship to be defined when canonical record is created.",
+      "bidirectional": true
+    }
+  ],
+  "tags": [
+    "protagonist",
+    "main-character",
+    "child",
+    "human",
+    "explorer",
+    "flagship"
+  ],
+  "references": {
+    "markdown": "profile.md"
+  },
+  "metadata": {
+    "revision": 1,
+    "notes": "First canonical flagship character. Initial creative reference established."
+  }
+}
