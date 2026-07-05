@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "whisperwood",
+  "canonicalName": "Whisperwood",
+  "displayName": "Whisperwood",
+  "summary": "A timeless children's storytelling universe where wonder feels natural, kindness has weight, and adventure invites young audiences to look closer at the world around them.",
+  "description": "Whisperwood is an original storytelling universe created for children aged 4–8. The flagship series is Zulk & Zaya. Stories are told with warmth, clarity, and respect for the imagination of young listeners and early readers. Whisperwood is designed to grow across books, animation, games, educational content, and interactive experiences while honoring a single creative foundation.",
+  "audience": "children",
+  "genre": "Children's Adventure",
+  "targetAge": {
+    "minimum": 4,
+    "maximum": 8
+  },
+  "language": "en",
+  "flagshipSeries": "Zulk & Zaya",
+  "coreThemes": [
+    "kindness creates magic",
+    "curiosity leads to discovery",
+    "friendship is strength",
+    "family comes first",
+    "nature should be respected",
+    "every problem has a peaceful solution"
+  ],
+  "coreValues": [
+    "kindness",
+    "honesty",
+    "curiosity",
+    "courage",
+    "respect",
+    "teamwork",
+    "empathy",
+    "responsibility"
+  ],
+  "storytellingPrinciples": {
+    "should": [
+      "inspire curiosity",
+      "encourage kindness",
+      "reward teamwork",
+      "end with hope",
+      "teach without preaching"
+    ],
+    "mustNeverInclude": [
+      "horror",
+      "gore",
+      "cruelty",
+      "bullying as comedy",
+      "adult humor",
+      "politics",
+      "religion",
+      "real-world conflict"
+    ]
+  },
+  "worldRules": [
+    {
+      "rule": "animals can communicate",
+      "summary": "Animals may speak and participate as full characters in a natural, wonder-filled way."
+    },
+    {
+      "rule": "children are always safe",
+      "summary": "Young characters may face gentle challenges, but the audience must always trust they will be all right."
+    },
+    {
+      "rule": "magic is gentle",
+      "summary": "Magic is soft, warm, and wondrous — never frightening, violent, or corrupting."
+    },
+    {
+      "rule": "magic serves the story",
+      "summary": "Wonder supports the narrative; it does not replace effort, kindness, or courage."
+    },
+    {
+      "rule": "technology is simple and child-friendly",
+      "summary": "Tools and devices are approachable and appropriate for young audiences."
+    }
+  ],
+  "narrativeTone": {
+    "summary": "Warm, hopeful, and imaginative.",
+    "qualities": [
+      "gentle",
+      "clear",
+      "optimistic",
+      "respectful of childhood",
+      "wonder-filled"
+    ]
+  },
+  "expansionGoals": [
+    "books",
+    "animation",
+    "games",
+    "educational content",
+    "interactive experiences",
+    "websites and mobile apps"
+  ],
+  "metadata": {
+    "revision": 1,
+    "status": "canonical"
+  }
+}
