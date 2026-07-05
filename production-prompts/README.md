@@ -51,7 +51,7 @@ When assembling prompts, merge sources in this order (later layers add detail; n
 
 ## Story Studio Integration
 
-Story Studio **Prompt Generator** agent ([docs/story-studio/ai-agents.md](../docs/story-studio/ai-agents.md)) reads:
+Story Studio **Prompt Generator** service ([story-studio/prompt-generator.md](../story-studio/prompt-generator.md)) reads:
 
 | Data source | Fields used |
 |-------------|-------------|
@@ -211,7 +211,7 @@ Episode assets/ + editorial review
 
 | Document | Role |
 |----------|------|
-| [docs/story-studio/](../docs/story-studio/) | Pipeline and Prompt Generator agent |
+| [story-studio/](../story-studio/) | Story Studio MVP architecture |
 | [episodes/_template/](../episodes/_template/) | Episode production package |
 | [schemas/shared/ai.schema.json](../schemas/shared/ai.schema.json) | Profile field definitions |
 
