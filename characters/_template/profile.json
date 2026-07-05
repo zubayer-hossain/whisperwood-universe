@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "character-example",
+  "name": "Example Character",
+  "canonicalName": "Example Character",
+  "displayName": "Example Character",
+  "nickname": "Example",
+  "aliases": [],
+  "kind": "human",
+  "status": "draft",
+  "summary": "Example description — replace with a brief overview of the character.",
+  "description": "Example description — replace with an extended narrative summary for story generation and long-form profiles.",
+  "catchphrase": "Example catchphrase — replace or remove.",
+  "storyRoles": [
+    {
+      "role": "supporting",
+      "primary": true,
+      "label": "Example Role"
+    }
+  ],
+  "storyFunctions": [
+    {
+      "function": "helper",
+      "weight": 0.5,
+      "label": "Example Function"
+    }
+  ],
+  "personality": {
+    "traits": [
+      {
+        "label": "example-trait",
+        "description": "Example description of a personality trait."
+      }
+    ],
+    "mannerisms": [
+      "Example mannerism — replace or remove."
+    ]
+  },
+  "moralValues": [
+    {
+      "label": "kindness",
+      "description": "Example description of how this value appears in the character's choices."
+    }
+  ],
+  "strengths": [
+    {
+      "label": "example-strength",
+      "description": "Example description of a strength."
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "example-weakness",
+      "description": "Example description of a weakness or growth area."
+    }
+  ],
+  "appearance": {
+    "summary": "Example description of visual appearance.",
+    "colors": ["example-color"],
+    "distinguishingFeatures": ["Example distinguishing feature"],
+    "size": "medium"
+  },
+  "kindProfile": {
+    "ageRange": "unspecified",
+    "roles": []
+  },
+  "relationships": [],
+  "tags": ["template", "example"],
+  "references": {
+    "markdown": "profile.md"
+  },
+  "metadata": {
+    "revision": 1,
+    "notes": "Template placeholder — not a canonical character."
+  }
+}
